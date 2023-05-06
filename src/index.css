@@ -12,6 +12,10 @@ body {
   color: var(--color-text-80);
   background: var(--color-background);
   overflow-x: hidden;
+}
+
+body, 
+#root {
   height: 100%;
 }
 
