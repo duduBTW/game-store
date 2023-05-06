@@ -1,5 +1,8 @@
+import { ThemeProvider } from "styled-components";
+import theme from "./constants/theme";
+
 function App() {
-  return <div>Hello :)</div>;
+  return <ThemeProvider theme={theme}></ThemeProvider>;
 }
 
 export default App;
