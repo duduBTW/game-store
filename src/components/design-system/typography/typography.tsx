@@ -1,9 +1,22 @@
 import { Props } from "./typography.props";
 import { Container } from "./typography.styles";
 
-const Typography = ({ children, variant = "regular", ...rest }: Props) => {
+const Typography = ({
+  children,
+  size = "regular",
+  color = "gray.100",
+  weight = "regular",
+  fontFamily = "Nunito",
+  ...rest
+}: Props) => {
   return (
-    <Container {...rest} variant={variant}>
+    <Container
+      {...rest}
+      color={color}
+      size={size}
+      weight={weight}
+      fontFamily={fontFamily}
+    >
       {children}
     </Container>
   );

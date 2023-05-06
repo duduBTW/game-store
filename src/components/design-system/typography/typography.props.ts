@@ -1,20 +1,19 @@
-// type PropsOfElement<
-//   C extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
-// > = JSX.LibraryManagedAttributes<C, React.ComponentPropsWithRef<C>>;
+import { DefaultTheme } from "styled-components";
+import { DotNestedKeys } from "@/utils/types";
 
-export type TypographyVariant = "regular" | "lg" | "3xl";
+export type TypographyColor = DotNestedKeys<DefaultTheme["colors"]>;
+export type TypographyWeight = "regular" | "medium" | "bold";
+export type TypographySize = "regular" | "lg" | "3xl";
+export type TypographyFontFamily = "Nunito" | "Rubik";
 
-// export type Props<C extends React.ElementType> = PropsOfElement<C> & {
-//   as?: C;
-//   variant: TypographyVariant;
-// };
-
-export interface Props extends React.HTMLAttributes<"div"> {
-  as?: React.ElementType;
-  variant?: TypographyVariant;
-  children: React.ReactNode;
+export interface TypographyCustomization {
+  size: TypographySize;
+  color: TypographyColor;
+  weight: TypographyWeight;
+  fontFamily: TypographyFontFamily;
 }
 
-export interface StyledContainerProps {
-  variant: TypographyVariant;
+export interface Props extends Partial<TypographyCustomization> {
+  as?: React.ElementType;
+  children: React.ReactNode;
 }
