@@ -3,7 +3,8 @@ import { Container } from "./typography.styles";
 
 const Typography = ({
   children,
-  size = "regular",
+  size = "base",
+  lineHeight = "paragraph",
   color = "gray.100",
   weight = "regular",
   fontFamily = "Nunito",
@@ -16,6 +17,7 @@ const Typography = ({
       size={size}
       weight={weight}
       fontFamily={fontFamily}
+      lineHeight={lineHeight}
     >
       {children}
     </Container>

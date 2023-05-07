@@ -6,30 +6,33 @@ import {
   TypographyColor,
   TypographyWeight,
   TypographyFontFamily,
+  TypographyLineHeight,
 } from "./typography.props";
 
 export const Container = styled.p<TypographyCustomization>(
-  ({ theme, size, color, weight, fontFamily }) => {
+  ({ theme, size, color, weight, fontFamily, lineHeight }) => {
     return css`
       ${getTypographySizeStyles(size)}
       ${getTypographyWeightStyles(weight)}
       ${getTypographyFontFamilyStyles(fontFamily)}
+      ${getTypographyLineHeight(lineHeight)}
       ${getTypographyColorStyles(theme, color)}
     `;
   }
 );
 
 // Elpers
-const getTypographySizeStyles = (size: TypographySize) => {
-  switch (size) {
-    case "regular":
-      return css``;
+const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
+  switch (lineHeight) {
+    case "paragraph":
+      return css`
+        line-height: 1.5em;
+      `;
 
-    case "lg":
-      return css``;
-
-    case "3xl":
-      return css``;
+    case "title":
+      return css`
+        line-height: 1.05em;
+      `;
   }
 };
 
@@ -74,3 +77,22 @@ const getTypographyColorStyles = (
     color: ${color};
   `;
 };
+
+const getTypographySizeStyles = (size: TypographySize) => {
+  const fontSize = FONT_SIZES[size];
+
+  return css`
+    font-size: ${fontSize};
+  `;
+};
+
+// Consts
+export const FONT_SIZES: Record<TypographySize, string> = {
+  xs: "1.2rem",
+  sm: "1.4rem",
+  base: "1.6rem",
+  lg: "1.8rem",
+  xl: "2rem",
+  "2xl": "2.4rem",
+  "3xl": "3rem",
+} as const;
