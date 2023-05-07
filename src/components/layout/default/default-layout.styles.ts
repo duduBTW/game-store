@@ -5,6 +5,7 @@ export const Container = styled.div(({ theme }) => {
     position: relative;
     min-height: 100vh;
     background-color: ${theme.colors.background};
+    isolation: isolate;
 
     &::before {
       content: "";
@@ -13,6 +14,7 @@ export const Container = styled.div(({ theme }) => {
       left: 0;
       width: 100%;
       height: 30rem;
+      z-index: -1;
       background: linear-gradient(
           0deg,
           ${theme.colors.background} 0%,

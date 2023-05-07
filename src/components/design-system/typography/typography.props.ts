@@ -2,7 +2,7 @@ import { DefaultTheme } from "styled-components";
 import { DotNestedKeys } from "@/utils/types";
 
 export type TypographyColor = DotNestedKeys<DefaultTheme["colors"]>;
-export type TypographyWeight = "regular" | "medium" | "bold";
+export type TypographyWeight = "regular" | "medium" | "bold" | "black";
 export type TypographySize = "regular" | "lg" | "3xl";
 export type TypographyFontFamily = "Nunito" | "Rubik";
 

@@ -36,10 +36,14 @@ const getTypographySizeStyles = (size: TypographySize) => {
 const getTypographyFontFamilyStyles = (fontFamily: TypographyFontFamily) => {
   switch (fontFamily) {
     case "Nunito":
-      return css``;
+      return css`
+        font-family: "Nunito";
+      `;
 
     case "Rubik":
-      return css``;
+      return css`
+        font-family: "Rubik";
+      `;
   }
 };
 

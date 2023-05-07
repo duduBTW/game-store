@@ -1,3 +1,52 @@
+@font-face {
+  font-family: "Nunito";
+  font-weight: 400;
+  src: url(./assets/fonts/Nunito/nunito-regular-webfont.woff2) format(woff2),
+    url(./assets/fonts/Nunito/nunito-regular-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-weight: 500;
+  src: url(./assets/fonts/Nunito/nunito-medium-webfont.woff2) format(woff2),
+    url(./assets/fonts/Nunito/nunito-medium-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-weight: bold;
+  src: url(./assets/fonts/Nunito/nunito-bold-webfont.woff2) format(woff2),
+    url(./assets/fonts/Nunito/nunito-bold-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: 400;
+  src: url(./assets/fonts/Rubik/rubik-regular-webfont.woff2) format(woff2),
+    url(./assets/fonts/Rubik/rubik-regular-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: 500;
+  src: url(./assets/fonts/Rubik/rubik-medium-webfont.woff2) format(woff2),
+    url(./assets/fonts/Rubik/rubik-medium-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: bold;
+  src: url(./assets/fonts/Rubik/rubik-bold-webfont.woff2) format(woff2),
+    url(./assets/fonts/Rubik/rubik-bold-webfont.woff) format(woff);
+}
+
+@font-face {
+  font-family: "Rubik";
+  font-weight: 900;
+  src: url(./assets/fonts/Rubik/rubik-black-webfont.woff2) format(woff2),
+    url(./assets/fonts/Rubik/rubik-black-webfont.woff) format(woff);
+}
+
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -7,14 +56,13 @@ html {
 }
 
 body {
-  font: 1.6rem 'Nunito', sans-serif;
+  font: 1.6rem "Nunito", sans-serif;
   margin: 0;
-  color: var(--color-text-80);
-  background: var(--color-background);
+  color: white;
   overflow-x: hidden;
 }
 
-body, 
+body,
 #root {
   height: 100%;
 }
@@ -30,11 +78,10 @@ h6 {
   line-height: 1;
 }
 
-
 p {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 button {
@@ -57,5 +104,3 @@ a:active,
 * {
   box-sizing: border-box;
 }
-
-
