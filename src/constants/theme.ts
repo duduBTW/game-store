@@ -21,6 +21,24 @@ const theme: DefaultTheme = {
       "900": "#18181B",
     },
   },
+  sizes: {
+    container: {
+      small: "64rem",
+      medium: "76.8rem",
+      large: "102.4rem",
+    },
+    gaps: {
+      "1": "0.4rem",
+      "2": "0.8rem",
+      "3": "1.2rem",
+      "12": "4.8rem",
+      "6": "2.4rem",
+      "8": "3.2rem",
+    },
+  },
+  borderRadius: {
+    medium: "1.2rem",
+  },
 };
 
 export default theme;

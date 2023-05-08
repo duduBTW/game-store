@@ -13,6 +13,11 @@ type SolidColor = {
   "900": string;
 };
 
+export type GapSize = "1" | "2" | "3" | "6" | "8" | "12";
+export type ContainerSize = "small" | "medium" | "large";
+
+export type BorderRadiusSize = "medium";
+
 declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
@@ -24,5 +29,10 @@ declare module "styled-components" {
       };
       gray: SolidColor;
     };
+    sizes: {
+      container: Record<ContainerSize, string>;
+      gaps: Record<GapSize, string>;
+    };
+    borderRadius: Record<BorderRadiusSize, string>;
   }
 }

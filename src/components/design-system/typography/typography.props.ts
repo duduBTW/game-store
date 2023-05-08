@@ -18,4 +18,5 @@ export interface TypographyCustomization {
 export interface Props extends Partial<TypographyCustomization> {
   as?: React.ElementType;
   children: React.ReactNode;
+  className?: string;
 }
