@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
+import { animated } from "@react-spring/web";
 import { Props } from "./size-container.props";
 
-export const Container = styled.div<Pick<Props, "size" | "centered">>(
+export const Container = styled(animated.div)<Pick<Props, "size" | "centered">>(
   ({ theme, size, centered }) => {
     const getCenteredStyles = () => {
       if (!centered) {
