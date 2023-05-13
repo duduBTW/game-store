@@ -23,7 +23,7 @@ const theme: DefaultTheme = {
   },
   sizes: {
     container: {
-      small: "64rem",
+      small: "68rem",
       medium: "76.8rem",
       large: "102.4rem",
     },
@@ -31,13 +31,21 @@ const theme: DefaultTheme = {
       "1": "0.4rem",
       "2": "0.8rem",
       "3": "1.2rem",
-      "12": "4.8rem",
+      "5": "2rem",
       "6": "2.4rem",
       "8": "3.2rem",
+      "10": "4rem",
+      "12": "4.8rem",
+      "16": "6.4rem",
     },
   },
   borderRadius: {
     medium: "1.2rem",
+  },
+  mq: {
+    fromDesktop: "@media (min-width: 1360px)",
+    fromTablet: "@media (min-width: 938px)",
+    fromMobile: "@media (min-width: 720px)",
   },
 };
 
