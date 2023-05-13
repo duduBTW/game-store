@@ -13,10 +13,12 @@ type SolidColor = {
   "900": string;
 };
 
-export type GapSize = "1" | "2" | "3" | "6" | "8" | "12";
+export type GapSize = "1" | "2" | "3" | "5" | "6" | "8" | "10" | "12" | "16";
 export type ContainerSize = "small" | "medium" | "large";
 
 export type BorderRadiusSize = "medium";
+
+export type MediaQueryBreakPoints = "fromDesktop" | "fromTablet" | "fromMobile";
 
 declare module "styled-components" {
   export interface DefaultTheme {
@@ -34,5 +36,6 @@ declare module "styled-components" {
       gaps: Record<GapSize, string>;
     };
     borderRadius: Record<BorderRadiusSize, string>;
+    mq: Record<MediaQueryBreakPoints, string>;
   }
 }
