@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import SizeContainer from "@/components/design-system/size-container/size-container";
 import Typography from "@/components/design-system/typography";
+import Button from "@/components/design-system/button/button";
 
 export const Container = styled.div(() => {
   return css`
@@ -51,8 +52,26 @@ export const GameDescription = styled(Typography)(() => {
   `;
 });
 
-export const Button = styled.button(() => {
+export const BuyContainer = styled.div(({ theme }) => {
   return css`
     width: 100%;
+    background-color: ${theme.colors.gray["900"]};
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+  `;
+});
+
+export const Price = styled(Typography)(({ theme }) => {
+  return css`
+    width: ${theme.sizes.gaps["48"]};
+    text-align: center;
+  `;
+});
+
+export const BuyButton = styled(Button)(({ theme }) => {
+  return css`
+    flex-grow: 1;
+    border: 0.3rem solid ${theme.colors.gray["900"]};
   `;
 });

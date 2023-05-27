@@ -13,7 +13,17 @@ type SolidColor = {
   "900": string;
 };
 
-export type GapSize = "1" | "2" | "3" | "5" | "6" | "8" | "10" | "12" | "16";
+export type GapSize =
+  | "1"
+  | "2"
+  | "3"
+  | "5"
+  | "6"
+  | "8"
+  | "10"
+  | "12"
+  | "16"
+  | "48";
 export type ContainerSize = "small" | "medium" | "large";
 
 export type BorderRadiusSize = "medium";
@@ -27,7 +37,7 @@ declare module "styled-components" {
       backgroundRgb: string;
       brand: {
         main: string;
-        gradiant: string;
+        gradiant: { main: string; light: string };
       };
       gray: SolidColor;
     };

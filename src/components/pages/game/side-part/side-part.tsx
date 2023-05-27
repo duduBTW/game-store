@@ -34,8 +34,8 @@ export function GameSidePartContent() {
   return (
     <>
       <AbsoluteContainer size="small" style={stylesAbsolute}>
-        <Tabs />
-        <div>
+        {/* <Tabs /> */}
+        {/* <div>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam odio
           aliquid deleniti nihil. Voluptates illum quia odit expedita officiis
           quam cum nemo ipsum similique aliquid id eos cumque, repellendus eum
@@ -149,7 +149,7 @@ export function GameSidePartContent() {
           consectetur consequuntur fugit totam non enim tempora at, repudiandae
           doloribus illo suscipit illum hic minima reprehenderit maxime
           perferendis quod!
-        </div>
+        </div> */}
       </AbsoluteContainer>
 
       <DesktopContainer size="small" style={stylesDeskop} />
@@ -170,7 +170,7 @@ export function GameSidePartIcon() {
 
 // Provider
 function useGameSidePart() {
-  const [sidepartActive, setSidepartActive] = useState(false);
+  const [sidepartActive, setSidepartActive] = useState(true);
 
   return [sidepartActive, setSidepartActive] as const;
 }

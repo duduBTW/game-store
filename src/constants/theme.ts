@@ -5,7 +5,10 @@ const theme: DefaultTheme = {
     background: "#0B0B0B",
     backgroundRgb: "11, 11, 11",
     brand: {
-      gradiant: "#4D356A 0%, #352E82 100%",
+      gradiant: {
+        main: "#4D356A 0%, #352E82 100%",
+        light: "#6F32BD 0%, #3629CB 100%",
+      },
       main: "#4B3D88",
     },
     gray: {
@@ -37,6 +40,7 @@ const theme: DefaultTheme = {
       "10": "4rem",
       "12": "4.8rem",
       "16": "6.4rem",
+      "48": "19.2rem",
     },
   },
   borderRadius: {

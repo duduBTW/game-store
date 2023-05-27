@@ -2,11 +2,13 @@ import SizeContainer from "@/components/design-system/size-container/size-contai
 import Typography from "@/components/design-system/typography";
 import {
   Container,
-  Button,
+  BuyContainer,
   BottomPartContainer,
   GameDescription,
   Image,
   UpperPartContainer,
+  Price,
+  BuyButton,
 } from "./main-part.styles";
 
 /* -------------------------------------------------------------------------------------------------
@@ -66,7 +68,13 @@ function BottomPart() {
         storyline.
       </GameDescription>
 
-      <Button>ababa</Button>
+      <BuyContainer>
+        <Price size="lg" lineHeight="title">
+          R$ 200,00
+        </Price>
+
+        <BuyButton>Buy</BuyButton>
+      </BuyContainer>
     </BottomPartContainer>
   );
 }
