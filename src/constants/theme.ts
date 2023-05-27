@@ -5,7 +5,10 @@ const theme: DefaultTheme = {
     background: "#0B0B0B",
     backgroundRgb: "11, 11, 11",
     brand: {
-      gradiant: "#4D356A 0%, #352E82 100%",
+      gradiant: {
+        main: "#4D356A 0%, #352E82 100%",
+        light: "#6F32BD 0%, #3629CB 100%",
+      },
       main: "#4B3D88",
     },
     gray: {
@@ -20,6 +23,33 @@ const theme: DefaultTheme = {
       "800": "#27272A",
       "900": "#18181B",
     },
+  },
+  sizes: {
+    container: {
+      small: "68rem",
+      medium: "76.8rem",
+      large: "102.4rem",
+    },
+    gaps: {
+      "1": "0.4rem",
+      "2": "0.8rem",
+      "3": "1.2rem",
+      "5": "2rem",
+      "6": "2.4rem",
+      "8": "3.2rem",
+      "10": "4rem",
+      "12": "4.8rem",
+      "16": "6.4rem",
+      "48": "19.2rem",
+    },
+  },
+  borderRadius: {
+    medium: "1.2rem",
+  },
+  mq: {
+    fromDesktop: "@media (min-width: 1360px)",
+    fromTablet: "@media (min-width: 938px)",
+    fromMobile: "@media (min-width: 720px)",
   },
 };
 

@@ -1,22 +1,16 @@
-import Carousel from "@/components/design-system/carousel/carousel";
-import Typography from "@/components/design-system/typography/typography";
+import { Container } from "./game-page.styles";
+import GameMainPart from "./main-part";
+import GameSidePart from "./side-part";
 
 export default function GamePage() {
   return (
-    <div>
-      <Typography
-        as="h1"
-        fontFamily="Rubik"
-        weight="black"
-        size="2xl"
-        lineHeight="title"
-      >
-        MONSTER HUNTER RISE
-      </Typography>
+    <Container>
+      <GameMainPart />
 
-      <Carousel dataLenght={1}>
-        <a href=""></a>
-      </Carousel>
-    </div>
+      <GameSidePart.Provider>
+        <GameSidePart.Content />
+        <GameSidePart.Icon />
+      </GameSidePart.Provider>
+    </Container>
   );
 }

@@ -31,7 +31,7 @@ const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
 
     case "title":
       return css`
-        line-height: 1.05em;
+        line-height: 1em;
       `;
   }
 };
