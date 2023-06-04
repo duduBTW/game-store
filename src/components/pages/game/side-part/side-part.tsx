@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSpring } from "@react-spring/web";
+import { useSpring, easings } from "@react-spring/web";
 import { createContext, useContextSelector } from "use-context-selector";
 import SideBarLineIcon from "remixicon-react/SideBarLineIcon";
 import { GameSidePartProviderProps } from "./side-part.props";
@@ -18,6 +18,11 @@ export function GameSidePartContent() {
   const [stylesDeskop] = useSpring(() => {
     return {
       width: sidebarActive ? "68rem" : "0",
+      minWidth: sidebarActive ? "68rem" : "0",
+      config: {
+        easing: easings.easeOutSine,
+        duration: 350,
+      },
     };
   }, [sidebarActive]);
 
@@ -34,8 +39,8 @@ export function GameSidePartContent() {
   return (
     <>
       <AbsoluteContainer size="small" style={stylesAbsolute}>
-        {/* <Tabs /> */}
-        {/* <div>
+        <Tabs />
+        <div>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam odio
           aliquid deleniti nihil. Voluptates illum quia odit expedita officiis
           quam cum nemo ipsum similique aliquid id eos cumque, repellendus eum
@@ -149,7 +154,7 @@ export function GameSidePartContent() {
           consectetur consequuntur fugit totam non enim tempora at, repudiandae
           doloribus illo suscipit illum hic minima reprehenderit maxime
           perferendis quod!
-        </div> */}
+        </div>
       </AbsoluteContainer>
 
       <DesktopContainer size="small" style={stylesDeskop} />

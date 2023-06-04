@@ -10,6 +10,7 @@ const theme: DefaultTheme = {
         light: "#6F32BD 0%, #3629CB 100%",
       },
       main: "#4B3D88",
+      light: "#9086E9",
     },
     gray: {
       "50": "#FAFAFA",
@@ -34,6 +35,7 @@ const theme: DefaultTheme = {
       "1": "0.4rem",
       "2": "0.8rem",
       "3": "1.2rem",
+      "4": "1.6rem",
       "5": "2rem",
       "6": "2.4rem",
       "8": "3.2rem",
@@ -45,6 +47,7 @@ const theme: DefaultTheme = {
   },
   borderRadius: {
     medium: "1.2rem",
+    round: "2222rem",
   },
   mq: {
     fromDesktop: "@media (min-width: 1360px)",

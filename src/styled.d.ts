@@ -17,6 +17,7 @@ export type GapSize =
   | "1"
   | "2"
   | "3"
+  | "4"
   | "5"
   | "6"
   | "8"
@@ -26,7 +27,7 @@ export type GapSize =
   | "48";
 export type ContainerSize = "small" | "medium" | "large";
 
-export type BorderRadiusSize = "medium";
+export type BorderRadiusSize = "medium" | "round";
 
 export type MediaQueryBreakPoints = "fromDesktop" | "fromTablet" | "fromMobile";
 
@@ -37,6 +38,7 @@ declare module "styled-components" {
       backgroundRgb: string;
       brand: {
         main: string;
+        light: string;
         gradiant: { main: string; light: string };
       };
       gray: SolidColor;

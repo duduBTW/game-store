@@ -1,5 +1,6 @@
-import SizeContainer from "@/components/design-system/size-container/size-container";
+import { useState } from "react";
 import Typography from "@/components/design-system/typography";
+import Carousel from "@/components/design-system/carousel/carousel";
 import {
   Container,
   BuyContainer,
@@ -9,16 +10,48 @@ import {
   UpperPartContainer,
   Price,
   BuyButton,
+  CarouselUpperPartContainer,
+  StyledCarouselScroller,
 } from "./main-part.styles";
 
 /* -------------------------------------------------------------------------------------------------
  * GameMainPart
  * -----------------------------------------------------------------------------------------------*/
 export default function GameMainPart() {
+  const [data, setData] = useState([
+    "https://pbs.twimg.com/media/FvM3ZIQaIAABixA?format=jpg&name=large",
+    "https://pbs.twimg.com/media/Fw5y919WIAAmCev?format=jpg&name=4096x4096",
+    "https://pbs.twimg.com/media/Fw3cwtKaIAE6rUr?format=jpg&name=large",
+    "https://pbs.twimg.com/media/FwKkNK7aMAAmvYb?format=jpg&name=large",
+  ]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setData([
+
+  //     ]);
+  //   }, 10000);
+  // }, []);
+
   return (
     <Container>
       <UpperPart />
-      <Carousel />
+
+      <Carousel.Provider numberOfItems={data.length}>
+        <CarouselUpperPartContainer size="small" centered>
+          <Carousel.Pagination />
+          <Carousel.Navegation />
+        </CarouselUpperPartContainer>
+
+        <StyledCarouselScroller tabIndex={0}>
+          {data.map((src, index) => (
+            <Carousel.SnapItem index={index}>
+              {({ isActive }) => <Image isActive={isActive} src={src} />}
+            </Carousel.SnapItem>
+          ))}
+        </StyledCarouselScroller>
+      </Carousel.Provider>
+
       <BottomPart />
     </Container>
   );
@@ -46,13 +79,16 @@ function UpperPart() {
 /* -------------------------------------------------------------------------------------------------
  * Carousel
  * -----------------------------------------------------------------------------------------------*/
-function Carousel() {
-  return (
-    <SizeContainer size="small" centered>
-      <Image src="https://pbs.twimg.com/media/FvM3ZIQaIAABixA?format=jpg&name=large" />
-    </SizeContainer>
-  );
-}
+// function Carousel() {
+//   return (
+//     <CarouselContainer tabIndex={0}>
+//       <Image src="https://pbs.twimg.com/media/FvM3ZIQaIAABixA?format=jpg&name=large" />
+//       <Image src="https://pbs.twimg.com/media/Fw5y919WIAAmCev?format=jpg&name=4096x4096" />
+//       <Image src="https://pbs.twimg.com/media/Fw3cwtKaIAE6rUr?format=jpg&name=large" />
+//       <Image src="https://pbs.twimg.com/media/FwAK-BvacAAMdwO?format=jpg&name=large" />
+//     </CarouselContainer>
+//   );
+// }
 
 /* -------------------------------------------------------------------------------------------------
  * BottomPart
