@@ -25,14 +25,6 @@ export default function GameMainPart() {
     "https://pbs.twimg.com/media/FwKkNK7aMAAmvYb?format=jpg&name=large",
   ]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setData([
-
-  //     ]);
-  //   }, 10000);
-  // }, []);
-
   return (
     <Container>
       <UpperPart />

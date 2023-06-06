@@ -14,6 +14,7 @@ type SolidColor = {
 };
 
 export type GapSize =
+  | "px"
   | "1"
   | "2"
   | "3"
@@ -24,10 +25,11 @@ export type GapSize =
   | "10"
   | "12"
   | "16"
+  | "32"
   | "48";
 export type ContainerSize = "small" | "medium" | "large";
 
-export type BorderRadiusSize = "medium" | "round";
+export type BorderRadiusSize = "small" | "medium" | "round";
 
 export type MediaQueryBreakPoints = "fromDesktop" | "fromTablet" | "fromMobile";
 

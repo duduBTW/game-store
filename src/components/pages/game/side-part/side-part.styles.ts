@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 import SizeContainer from "@/components/design-system/size-container/size-container";
+import Tabs from "@/components/design-system/tabs/tabs";
+import Carousel from "@/components/design-system/carousel/carousel";
 
 export const Container = styled(SizeContainer)(() => {
   return css``;
@@ -15,27 +17,34 @@ export const AbsoluteContainer = styled(Container)(({ theme }) => {
     right: 0;
     top: 0;
     height: 100%;
-    padding: ${sizes.gaps["12"]};
     z-index: 2;
-    overflow-y: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: ${sizes.gaps["12"]};
 
     ${mq.fromMobile} {
-      padding: ${sizes.gaps["12"]} ${sizes.gaps["16"]};
+      padding-top: ${sizes.gaps["12"]};
     }
   `;
 });
 
-export const Tabs = styled.div(() => {
+export const TabsContent = styled(Tabs.Content)(({ theme }) => {
   return css`
-    height: 3.2rem;
-    background-color: red;
-    position: sticky;
-    top: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    /* padding: 0 ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["12"]}; */
+  `;
+});
+
+export const TabsList = styled(Tabs.List)(({ theme }) => {
+  return css`
+    padding: 0 ${theme.sizes.gaps["12"]};
   `;
 });
 
 export const SideBarIcon = styled.button(({ theme }) => {
-  const { mq, sizes } = theme;
+  const { sizes } = theme;
 
   return css`
     z-index: 2;
@@ -45,10 +54,6 @@ export const SideBarIcon = styled.button(({ theme }) => {
     top: 4.8rem;
     right: ${sizes.gaps["5"]};
     cursor: pointer;
-
-    ${mq.fromMobile} {
-      right: ${sizes.gaps["8"]};
-    }
   `;
 });
 
@@ -74,5 +79,31 @@ export const MobileContainer = styled.div(({ theme }) => {
     ${theme.mq.fromDesktop} {
       display: none;
     }
+  `;
+});
+
+export const CarouselUpperPartContainer = styled(SizeContainer)(({ theme }) => {
+  return css`
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["6"]};
+  `;
+});
+
+export const ReviewStatistcsContainer = styled.div(({ theme }) => {
+  return css`
+    width: calc(
+      ${theme.sizes.container.small} - ${theme.sizes.gaps["12"]} -
+        ${theme.sizes.gaps["12"]}
+    );
+    height: ${theme.sizes.gaps["32"]};
+    background-color: red;
+  `;
+});
+
+export const StyledCarouselScroller = styled(Carousel.Scroller)(({ theme }) => {
+  return css`
+    gap: ${theme.sizes.gaps["4"]};
   `;
 });

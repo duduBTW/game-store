@@ -36,14 +36,14 @@ export const PaginationPage = styled.div(({ theme }) => {
     border-radius: ${theme.borderRadius.round};
     transition: width 0.2s ease, background-color 0.1s ease;
 
+    &:hover {
+      background-color: ${theme.colors.gray["500"]};
+    }
+
     &[data-active="true"] {
       cursor: initial;
       width: ${theme.sizes.gaps["4"]};
       background-color: ${theme.colors.brand.light};
-    }
-
-    &:hover {
-      background-color: ${theme.colors.gray["500"]};
     }
   `;
 });

@@ -32,6 +32,7 @@ const theme: DefaultTheme = {
       large: "102.4rem",
     },
     gaps: {
+      px: "0.1rem",
       "1": "0.4rem",
       "2": "0.8rem",
       "3": "1.2rem",
@@ -42,10 +43,12 @@ const theme: DefaultTheme = {
       "10": "4rem",
       "12": "4.8rem",
       "16": "6.4rem",
+      "32": "12.8rem",
       "48": "19.2rem",
     },
   },
   borderRadius: {
+    small: "0.8rem",
     medium: "1.2rem",
     round: "2222rem",
   },

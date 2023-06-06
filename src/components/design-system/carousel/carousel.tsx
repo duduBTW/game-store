@@ -24,128 +24,6 @@ import {
   SnapItemContainer,
 } from "./carousel.styles";
 
-function useCarouselValue({ numberOfItems }: { numberOfItems: number }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const scrollItemRefs = useRef<Element[]>([]);
-
-  const canSlideNext = useMemo(
-    () => activeIndex + 1 < numberOfItems,
-    [activeIndex, numberOfItems]
-  );
-
-  const canSlidePrevius = useMemo(() => activeIndex > 0, [activeIndex]);
-
-  const canSlideTo = useMemo(
-    () =>
-      (
-        generateIndexDestination: ((activeIndex: number) => number) | number
-      ) => {
-        const destinationIndex =
-          typeof generateIndexDestination === "function"
-            ? generateIndexDestination(activeIndex)
-            : generateIndexDestination;
-
-        return inRange(destinationIndex, 0, numberOfItems);
-      },
-    [activeIndex, numberOfItems]
-  );
-
-  const slideTo = useCallback(
-    (indexDestination: ((activeIndex: number) => number) | number) => {
-      if (!scrollerRef.current) {
-        return;
-      }
-
-      const destinationItemIndex =
-        typeof indexDestination === "function"
-          ? indexDestination(activeIndex)
-          : indexDestination;
-
-      const scrollToElement = scrollItemRefs.current[destinationItemIndex] as
-        | HTMLDivElement
-        | undefined;
-
-      const firstElement = scrollItemRefs.current[0] as
-        | HTMLDivElement
-        | undefined;
-
-      if (!scrollToElement || !firstElement) {
-        return;
-      }
-
-      scrollerRef.current.scrollTo({
-        left: scrollToElement.offsetLeft - firstElement.offsetLeft,
-        behavior: "smooth",
-      });
-    },
-    [activeIndex]
-  );
-
-  useEffect(() => {
-    const scrollItemElements = scrollItemRefs.current;
-
-    const updateActiveIndex = (newActiveElement: Element) => {
-      const newActiveIndex = scrollItemRefs.current.findIndex((element) =>
-        element.isEqualNode(newActiveElement)
-      );
-
-      setActiveIndex(newActiveIndex);
-    };
-
-    const intersectionObserver = new IntersectionObserver(
-      (elements) => {
-        elements.forEach((element) => {
-          if (!element.isIntersecting) {
-            return;
-          }
-
-          updateActiveIndex(element.target);
-        });
-      },
-      {
-        root: scrollerRef.current,
-        rootMargin: "0px 50%",
-      }
-    );
-
-    scrollItemElements.forEach((scrollItem) => {
-      intersectionObserver.observe(scrollItem);
-    });
-
-    return () => {
-      scrollItemElements.forEach((scrollItem) => {
-        intersectionObserver.unobserve(scrollItem);
-      });
-      intersectionObserver.disconnect();
-    };
-  }, []);
-
-  return {
-    scrollerRef,
-    scrollItemRefs,
-    numberOfItems,
-    activeIndex,
-    slideTo,
-    canSlideNext,
-    canSlidePrevius,
-    canSlideTo,
-  } as const;
-}
-
-export function useCarousel() {
-  const value = useContext(CarouselContext);
-
-  if (value === null) {
-    throw new Error(
-      "useCarousel can only be used inside of a `CarouselProvider`"
-    );
-  }
-
-  return value;
-}
-
 const CarouselContext = createContext<null | ReturnType<
   typeof useCarouselValue
 >>(null);
@@ -166,7 +44,7 @@ function Scroller({ children, ...rest }: CarouselScrollerProps) {
   const { scrollerRef } = useCarousel();
 
   return (
-    <ScrollerContainer {...rest} ref={scrollerRef}>
+    <ScrollerContainer {...rest} ref={scrollerRef} tabIndex={0}>
       {children}
     </ScrollerContainer>
   );
@@ -179,6 +57,8 @@ function SnapItem({ children, index, ...rest }: SnapItemScrollerProps) {
 
   return (
     <SnapItemContainer
+      {...rest}
+      {...{ [DATA_INDEX]: index }}
       ref={(node) => {
         if (!node) {
           return;
@@ -186,7 +66,6 @@ function SnapItem({ children, index, ...rest }: SnapItemScrollerProps) {
 
         scrollItemRefs.current[index] = node;
       }}
-      {...rest}
     >
       {typeof children === "function" ? children({ isActive }) : children}
     </SnapItemContainer>
@@ -207,14 +86,6 @@ function Pagination(props: React.HTMLAttributes<HTMLDivElement>) {
       ))}
     </PaginationContainer>
   );
-}
-
-function previusComparation(activeIndex: number) {
-  return activeIndex - 1;
-}
-
-function nextComparation(activeIndex: number) {
-  return activeIndex + 1;
 }
 
 function Navegation(props: React.HTMLAttributes<HTMLDivElement>) {
@@ -241,6 +112,182 @@ function Navegation(props: React.HTMLAttributes<HTMLDivElement>) {
   );
 }
 
+// ----------------
+// Consts
+// ----------------
+const DATA_INDEX = "data-index";
+const ROOT_MARGIN = "0px -50%";
+
+// ----------------
+// Hooks
+// ----------------
+function useCarouselValue({ numberOfItems }: { numberOfItems: number }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const scrollItemRefs = useRef<Element[]>([]);
+
+  const canSlideTo = useMemo(
+    () => canSlideToFactory(activeIndex, numberOfItems),
+    [activeIndex, numberOfItems]
+  );
+
+  const slideTo = useCallback(
+    (getDestinationIndex: DestinationIndex) => {
+      if (!scrollerRef.current) {
+        return;
+      }
+
+      const left = getScrollItemScrollLeft(
+        getDestinationIndex,
+        activeIndex,
+        scrollItemRefs.current
+      );
+
+      if (left === undefined) {
+        console.warn("Cant scroll to that item");
+        return;
+      }
+
+      scrollerRef.current.scrollTo({
+        left,
+        behavior: "smooth",
+      });
+    },
+    [activeIndex]
+  );
+
+  // Watches for scroll changes and updates the active index
+  useEffect(() => {
+    const scrollItemElements = scrollItemRefs.current;
+
+    const updateActiveIndex = (newActiveElement: Element) => {
+      setActiveIndex(
+        findScrollItemIndex(newActiveElement, scrollItemRefs.current)
+      );
+    };
+
+    const intersectionObserver = new IntersectionObserver(
+      (elements) => {
+        elements.forEach((element) => {
+          if (!element.isIntersecting) {
+            return;
+          }
+
+          updateActiveIndex(element.target);
+        });
+      },
+      {
+        root: scrollerRef.current,
+        rootMargin: ROOT_MARGIN,
+      }
+    );
+
+    scrollItemElements.forEach((scrollItem) => {
+      intersectionObserver.observe(scrollItem);
+    });
+
+    return () => {
+      scrollItemElements.forEach((scrollItem) => {
+        intersectionObserver.unobserve(scrollItem);
+      });
+      intersectionObserver.disconnect();
+    };
+  }, []);
+
+  return {
+    scrollerRef,
+    scrollItemRefs,
+    numberOfItems,
+    activeIndex,
+    slideTo,
+    canSlideTo,
+  } as const;
+}
+
+export function useCarousel() {
+  const value = useContext(CarouselContext);
+
+  if (value === null) {
+    throw new Error(
+      "useCarousel can only be used inside of a `CarouselProvider`"
+    );
+  }
+
+  return value;
+}
+
+// ----------------
+// Helpers
+// ----------------
+type DestinationIndex = ((activeIndex: number) => number) | number;
+
+function previusComparation(activeIndex: number) {
+  return activeIndex - 1;
+}
+
+function nextComparation(activeIndex: number) {
+  return activeIndex + 1;
+}
+
+// Generates a canSlideTo function
+function canSlideToFactory(activeIndex: number, numberOfItems: number) {
+  return (getDestinationIndex: DestinationIndex) => {
+    const destinationIndex = generateDestinationIndex(
+      getDestinationIndex,
+      activeIndex
+    );
+
+    return inRange(destinationIndex, 0, numberOfItems);
+  };
+}
+
+// Gets the left scroll position of the generateDestinationIndex
+function getScrollItemScrollLeft(
+  getDestinationIndex: DestinationIndex,
+  activeIndex: number,
+  scrollItemRefs: Element[]
+) {
+  const destinationIndex = generateDestinationIndex(
+    getDestinationIndex,
+    activeIndex
+  );
+
+  const firstElement = scrollItemRefs[0] as HTMLElement | undefined;
+  const scrollToElement = scrollItemRefs[destinationIndex] as
+    | HTMLElement
+    | undefined;
+
+  if (!scrollToElement || !firstElement) {
+    return;
+  }
+
+  return scrollToElement.offsetLeft - firstElement.offsetLeft;
+}
+
+// Finds new active element index
+function findScrollItemIndex(
+  newActiveElement: Element,
+  scrollItemRefs: Element[]
+) {
+  return scrollItemRefs.findIndex(
+    (element) =>
+      element.getAttribute(DATA_INDEX) ===
+      newActiveElement.getAttribute(DATA_INDEX)
+  );
+}
+
+function generateDestinationIndex(
+  destinationIndex: DestinationIndex,
+  activeIndex: number
+) {
+  if (typeof destinationIndex === "function") {
+    return destinationIndex(activeIndex);
+  }
+
+  return destinationIndex;
+}
+
 const Carousel = {
   Provider,
   Scroller,
@@ -248,5 +295,4 @@ const Carousel = {
   Pagination,
   Navegation,
 } as const;
-
 export default Carousel;
