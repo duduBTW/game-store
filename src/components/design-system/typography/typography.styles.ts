@@ -22,7 +22,7 @@ export const Container = styled.p<TypographyCustomization>(
 );
 
 // Elpers
-const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
+export const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
   switch (lineHeight) {
     case "paragraph":
       return css`
@@ -36,7 +36,9 @@ const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
   }
 };
 
-const getTypographyFontFamilyStyles = (fontFamily: TypographyFontFamily) => {
+export const getTypographyFontFamilyStyles = (
+  fontFamily: TypographyFontFamily
+) => {
   switch (fontFamily) {
     case "Nunito":
       return css`
@@ -50,7 +52,7 @@ const getTypographyFontFamilyStyles = (fontFamily: TypographyFontFamily) => {
   }
 };
 
-const getTypographyWeightStyles = (weight: TypographyWeight) => {
+export const getTypographyWeightStyles = (weight: TypographyWeight) => {
   switch (weight) {
     case "regular":
       return css`
@@ -67,7 +69,7 @@ const getTypographyWeightStyles = (weight: TypographyWeight) => {
   }
 };
 
-const getTypographyColorStyles = (
+export const getTypographyColorStyles = (
   theme: DefaultTheme,
   colorKey: TypographyColor
 ) => {
@@ -78,7 +80,7 @@ const getTypographyColorStyles = (
   `;
 };
 
-const getTypographySizeStyles = (size: TypographySize) => {
+export const getTypographySizeStyles = (size: TypographySize) => {
   const fontSize = FONT_SIZES[size];
 
   return css`

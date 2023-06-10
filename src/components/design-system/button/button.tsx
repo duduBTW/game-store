@@ -1,13 +1,30 @@
-import Typography from "../typography/typography";
+import { useTheme } from "styled-components";
+import Typography from "@/components/design-system/typography";
 import { Props } from "./button.props";
-import { Container } from "./button.styles";
+import { StyledButton, StyledLoaderLineIcon } from "./button.styles";
 
-export default function Button({ children, ...rest }: Props) {
+export default function Button({
+  children,
+  variant = "contained",
+  isLoading = false,
+  ...rest
+}: Props) {
+  const theme = useTheme();
+
   return (
-    <Container {...rest}>
-      <Typography size="lg" weight="bold">
-        {children}
-      </Typography>
-    </Container>
+    <StyledButton
+      {...rest}
+      isLoading={isLoading}
+      variant={variant}
+      disabled={isLoading || rest.disabled}
+    >
+      {isLoading ? (
+        <StyledLoaderLineIcon size={theme.sizes.gaps["5"]} />
+      ) : (
+        <Typography size="lg" weight="bold" lineHeight="title">
+          {children}
+        </Typography>
+      )}
+    </StyledButton>
   );
 }

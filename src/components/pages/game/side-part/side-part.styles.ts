@@ -1,7 +1,9 @@
-import styled, { css } from "styled-components";
+import styled, { DefaultTheme, css } from "styled-components";
 import SizeContainer from "@/components/design-system/size-container/size-container";
 import Tabs from "@/components/design-system/tabs/tabs";
 import Carousel from "@/components/design-system/carousel/carousel";
+import UserReviewList from "../reviews/user";
+import ReviewStatistcs from "../reviews/statistics/reviews-statistics";
 
 export const Container = styled(SizeContainer)(() => {
   return css``;
@@ -29,17 +31,16 @@ export const AbsoluteContainer = styled(Container)(({ theme }) => {
   `;
 });
 
-export const TabsContent = styled(Tabs.Content)(({ theme }) => {
+export const TabsContent = styled(Tabs.Content)(() => {
   return css`
     flex-grow: 1;
     overflow-y: auto;
-    /* padding: 0 ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["12"]}; */
   `;
 });
 
 export const TabsList = styled(Tabs.List)(({ theme }) => {
   return css`
-    padding: 0 ${theme.sizes.gaps["12"]};
+    padding: 0 ${getHorizontalGap(theme)};
   `;
 });
 
@@ -87,18 +88,7 @@ export const CarouselUpperPartContainer = styled(SizeContainer)(({ theme }) => {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 0 ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["6"]};
-  `;
-});
-
-export const ReviewStatistcsContainer = styled.div(({ theme }) => {
-  return css`
-    width: calc(
-      ${theme.sizes.container.small} - ${theme.sizes.gaps["12"]} -
-        ${theme.sizes.gaps["12"]}
-    );
-    height: ${theme.sizes.gaps["32"]};
-    background-color: red;
+    padding: 0 ${getHorizontalGap(theme)} ${theme.sizes.gaps["6"]};
   `;
 });
 
@@ -107,3 +97,30 @@ export const StyledCarouselScroller = styled(Carousel.Scroller)(({ theme }) => {
     gap: ${theme.sizes.gaps["4"]};
   `;
 });
+
+export const StyledUserReviewList = styled(UserReviewList)(({ theme }) => {
+  return css`
+    // prettier-ignore
+    padding: ${theme.sizes.gaps["10"]} ${getHorizontalGap(theme)} ${theme.sizes
+      .gaps["6"]};
+  `;
+});
+
+export const StyledReviewStatistcs = styled(ReviewStatistcs)(({ theme }) => {
+  return css`
+    // prettier-ignore
+    width: calc(
+      ${theme.sizes.container.small} - ${getHorizontalGap(
+      theme
+    )} - ${getHorizontalGap(theme)}
+    );
+  `;
+});
+
+// ----------
+// Helpers
+// ----------
+
+function getHorizontalGap(theme: DefaultTheme) {
+  return theme.sizes.gaps["12"];
+}

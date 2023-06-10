@@ -44,6 +44,9 @@ declare module "styled-components" {
         gradiant: { main: string; light: string };
       };
       gray: SolidColor;
+      red: SolidColor;
+      blue: SolidColor;
+      blueGray: SolidColor;
     };
     sizes: {
       container: Record<ContainerSize, string>;

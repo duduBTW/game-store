@@ -67,8 +67,10 @@ export const NavegationIconButton = styled.button(({ theme }) => {
     align-items: center;
     justify-content: center;
 
-    &:hover {
-      background-color: ${theme.colors.gray["900"]};
+    :not(:disabled) {
+      &:hover {
+        background-color: ${theme.colors.gray["900"]};
+      }
     }
 
     &:active {
