@@ -21,6 +21,7 @@ const theme: DefaultTheme = {
       "16": "6.4rem",
       "32": "12.8rem",
       "48": "19.2rem",
+      "64": "25.6rem",
     },
   },
   colors: {

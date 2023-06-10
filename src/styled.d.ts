@@ -26,7 +26,9 @@ export type GapSize =
   | "12"
   | "16"
   | "32"
-  | "48";
+  | "48"
+  | "64";
+
 export type ContainerSize = "small" | "medium" | "large";
 
 export type BorderRadiusSize = "small" | "medium" | "round";

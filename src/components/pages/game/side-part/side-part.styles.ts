@@ -1,15 +1,11 @@
 import styled, { DefaultTheme, css } from "styled-components";
 import SizeContainer from "@/components/design-system/size-container/size-container";
-import Tabs from "@/components/design-system/tabs/tabs";
+import Tabs from "@/components/design-system/tabs";
 import Carousel from "@/components/design-system/carousel/carousel";
 import UserReviewList from "../reviews/user";
 import ReviewStatistcs from "../reviews/statistics/reviews-statistics";
 
-export const Container = styled(SizeContainer)(() => {
-  return css``;
-});
-
-export const AbsoluteContainer = styled(Container)(({ theme }) => {
+export const AbsoluteContainer = styled(SizeContainer)(({ theme }) => {
   const { sizes, mq } = theme;
 
   return css`
@@ -31,19 +27,6 @@ export const AbsoluteContainer = styled(Container)(({ theme }) => {
   `;
 });
 
-export const TabsContent = styled(Tabs.Content)(() => {
-  return css`
-    flex-grow: 1;
-    overflow-y: auto;
-  `;
-});
-
-export const TabsList = styled(Tabs.List)(({ theme }) => {
-  return css`
-    padding: 0 ${getHorizontalGap(theme)};
-  `;
-});
-
 export const SideBarIcon = styled.button(({ theme }) => {
   const { sizes } = theme;
 
@@ -58,7 +41,7 @@ export const SideBarIcon = styled.button(({ theme }) => {
   `;
 });
 
-export const DesktopContainer = styled(Container)(({ theme }) => {
+export const DesktopContainer = styled(SizeContainer)(({ theme }) => {
   return css`
     display: none;
 
@@ -114,6 +97,50 @@ export const StyledReviewStatistcs = styled(ReviewStatistcs)(({ theme }) => {
       theme
     )} - ${getHorizontalGap(theme)}
     );
+  `;
+});
+
+// ----------
+// Tabs
+// ----------
+export const StyledTabsContent = styled(Tabs.Content)(() => {
+  return css`
+    flex-grow: 1;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  `;
+});
+
+export const StyledTabsList = styled(Tabs.List)(({ theme }) => {
+  return css`
+    width: min-content;
+    display: flex;
+    align-items: center;
+    margin: 0 ${getHorizontalGap(theme)};
+    background-color: ${theme.colors.gray["900"]};
+    border-radius: ${theme.borderRadius.small};
+  `;
+});
+
+export const StyledTabsTrigger = styled(Tabs.Trigger)(({ theme }) => {
+  return css`
+    padding: ${theme.sizes.gaps["1"]} ${theme.sizes.gaps["6"]};
+    border-radius: ${theme.borderRadius.small};
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: ${theme.colors.gray["800"]};
+    }
+
+    &[data-selected="true"] {
+      cursor: initial;
+      background: ${theme.colors.brand.main};
+    }
   `;
 });
 

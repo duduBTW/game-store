@@ -6,21 +6,16 @@ import {
   useRef,
   useState,
   useLayoutEffect,
-  useMemo,
 } from "react";
+import Typography from "@/components/design-system/typography";
 import {
   ContentProps,
   ListProps,
   RootProps,
+  TabsDirection,
   TriggerProps,
   UseTabsValueProps,
 } from "./tabs.props";
-import {
-  StyledTabList,
-  StyledTabTrigger,
-  StyledTriggerSeparator,
-} from "./tabs.style";
-import Typography from "../typography/typography";
 
 type TabTriggerRecord = Record<string, HTMLButtonElement>;
 
@@ -40,9 +35,9 @@ function Root({ children, ...rest }: RootProps) {
 // ------------------
 function List({ children, ...rest }: ListProps) {
   return (
-    <StyledTabList {...rest} role="tablist">
+    <div {...rest} role="tablist">
       {children}
-    </StyledTabList>
+    </div>
   );
 }
 
@@ -50,21 +45,8 @@ function List({ children, ...rest }: ListProps) {
 // Trigger
 // ------------------
 function Trigger({ value, children, ...rest }: TriggerProps) {
-  const {
-    setFocused,
-    setSelectedTab,
-    selectedTab,
-    handleTriggerRef,
-    tabsTriggers,
-  } = useTabs();
-
-  const canShowSeparator = useMemo(() => {
-    if (!selectedTab) {
-      return null;
-    }
-
-    return getCanShowSeparator(value, selectedTab, tabsTriggers.current);
-  }, [selectedTab, value, tabsTriggers]);
+  const { setFocused, setSelectedTab, selectedTab, handleTriggerRef } =
+    useTabs();
 
   const isSelected = value === selectedTab;
 
@@ -86,39 +68,26 @@ function Trigger({ value, children, ...rest }: TriggerProps) {
   };
 
   return (
-    <>
-      {canShowSeparator?.previous && <TriggerSeparator />}
+    <button
+      {...rest}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      onClick={handleClick}
+      tabIndex={isSelected ? 1 : 0}
+      aria-selected={isSelected}
+      role="tab"
+      aria-controls={getControlledAria(value)}
+      data-value={value}
+      data-selected={isSelected}
+      ref={(node) => {
+        if (!node) return;
 
-      <StyledTabTrigger
-        {...rest}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onClick={handleClick}
-        tabIndex={isSelected ? 1 : 0}
-        aria-selected={isSelected}
-        role="tab"
-        aria-controls={getControlledAria(value)}
-        data-value={value}
-        data-selected={isSelected}
-        ref={(node) => {
-          if (!node) return;
-
-          handleTriggerRef(node, value);
-        }}
-      >
-        <Typography weight="medium">{children}</Typography>
-      </StyledTabTrigger>
-
-      {canShowSeparator?.next && <TriggerSeparator />}
-    </>
+        handleTriggerRef(node, value);
+      }}
+    >
+      <Typography weight="medium">{children}</Typography>
+    </button>
   );
-}
-
-// ------------------
-// TriggerSeparator
-// ------------------
-export function TriggerSeparator() {
-  return <StyledTriggerSeparator />;
 }
 
 // ------------------
@@ -147,7 +116,10 @@ function Content({ children, value, ...rest }: ContentProps) {
 // ------------------
 // Hooks
 // ------------------
-export function useTabsValue({ defaultValue }: UseTabsValueProps) {
+export function useTabsValue({
+  defaultValue,
+  direction = "horizontal",
+}: UseTabsValueProps) {
   const tabsTriggers = useRef<TabTriggerRecord>({});
 
   const [focused, setFocused] = useState(false);
@@ -176,11 +148,12 @@ export function useTabsValue({ defaultValue }: UseTabsValueProps) {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      const newSelectedTabValue = getKeyPressedTabValue(
-        event.key,
-        selectedTab,
-        tabsTriggers.current
-      );
+      const newSelectedTabValue = getKeyPressedTabValue({
+        pressedKey: event.key,
+        selectedTab: selectedTab,
+        tabsTriggers: tabsTriggers.current,
+        direction,
+      });
 
       if (!newSelectedTabValue) {
         return;
@@ -195,7 +168,7 @@ export function useTabsValue({ defaultValue }: UseTabsValueProps) {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [focused, selectedTab]);
+  }, [focused, selectedTab, direction]);
 
   return {
     setFocused,
@@ -251,29 +224,23 @@ function getPreviousValue(tabsTriggers: TabTriggerRecord, selectedTab: string) {
   return tabValues[selectedTabValueIndex - 1];
 }
 
-function getCanShowSeparator(
-  currentTab: string,
-  selectedTab: string,
-  tabsTriggers: TabTriggerRecord
-) {
-  const previousValue = getPreviousValue(tabsTriggers, currentTab);
-  const nextValue = getNextValue(tabsTriggers, currentTab);
-  const isSelected = currentTab === selectedTab;
+function getKeyPressedTabValue({
+  pressedKey,
+  selectedTab,
+  tabsTriggers,
+  direction,
+}: {
+  pressedKey: string;
+  selectedTab: string;
+  tabsTriggers: TabTriggerRecord;
+  direction: TabsDirection;
+}) {
+  const nextKey = direction === "horizontal" ? "ArrowRight" : "ArrowDown";
+  const previousKey = direction === "horizontal" ? "ArrowLeft" : "ArrowUp";
 
-  return {
-    previous: !isSelected && previousValue !== selectedTab,
-    next: !isSelected && nextValue !== selectedTab,
-  };
-}
-
-function getKeyPressedTabValue(
-  pressedKey: string,
-  selectedTab: string,
-  tabsTriggers: TabTriggerRecord
-) {
   const keyDownHandlers: Record<string, string | undefined> = {
-    ArrowLeft: getPreviousValue(tabsTriggers, selectedTab),
-    ArrowRight: getNextValue(tabsTriggers, selectedTab),
+    [previousKey]: getPreviousValue(tabsTriggers, selectedTab),
+    [nextKey]: getNextValue(tabsTriggers, selectedTab),
     Home: getFirstSelectedTab(tabsTriggers),
     End: getLastSelectedTab(tabsTriggers),
   };

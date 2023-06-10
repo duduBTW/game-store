@@ -18,7 +18,7 @@ import {
   CreateGameSuccessProps,
 } from "./create-game.props";
 
-function CreateGame() {
+function CreateGamePage() {
   const [createdGame, setCreatedGame] = useState<Game | null>(null);
 
   if (createdGame) {
@@ -146,4 +146,4 @@ function CreateGameSuccess({ game }: CreateGameSuccessProps) {
   );
 }
 
-export default CreateGame;
+export default CreateGamePage;

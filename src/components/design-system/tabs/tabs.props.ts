@@ -1,5 +1,8 @@
+export type TabsDirection = "horizontal" | "vertical";
+
 export type UseTabsValueProps = {
   defaultValue?: string;
+  direction?: TabsDirection;
 };
 
 export interface RootProps extends UseTabsValueProps {

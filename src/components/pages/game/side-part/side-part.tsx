@@ -1,15 +1,16 @@
 import { useState, createContext, useContext } from "react";
 import { useSpring, easings } from "@react-spring/web";
 import SideBarLineIcon from "remixicon-react/SideBarLineIcon";
-import Tabs from "@/components/design-system/tabs/tabs";
+import Tabs from "@/components/design-system/tabs";
 import { GameSidePartProviderProps } from "./side-part.props";
 import {
   AbsoluteContainer,
   SideBarIcon,
   DesktopContainer,
   MobileContainer,
-  TabsContent,
-  TabsList,
+  StyledTabsContent,
+  StyledTabsList,
+  StyledTabsTrigger,
   CarouselUpperPartContainer,
   StyledCarouselScroller,
   StyledUserReviewList,
@@ -57,13 +58,16 @@ export function GameSidePartContent() {
     <>
       <AbsoluteContainer size="small" style={stylesAbsolute}>
         <Tabs.Root>
-          <TabsList>
-            <Tabs.Trigger value={TABS["REVIEW"]}>Reviews</Tabs.Trigger>
-          </TabsList>
+          <StyledTabsList>
+            <StyledTabsTrigger value={TABS["REVIEW"]}>
+              Reviews
+            </StyledTabsTrigger>
+            <StyledTabsTrigger value={TABS["DLC"]}>DLC's</StyledTabsTrigger>
+          </StyledTabsList>
 
-          <TabsContent value={TABS["REVIEW"]}>
+          <StyledTabsContent value={TABS["REVIEW"]}>
             <Reviews />
-          </TabsContent>
+          </StyledTabsContent>
         </Tabs.Root>
       </AbsoluteContainer>
 

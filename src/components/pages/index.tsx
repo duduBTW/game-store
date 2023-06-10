@@ -4,7 +4,8 @@ import DefautLayout from "@/components/layout/default/default-layout";
 // pages
 import HomePage from "./home/home-page";
 import GamePage from "./game/game-page";
-import CreateGame from "./create-game/create-game";
+import CreateGamePage from "./create-game/create-game";
+import EditGamePage from "./edit-game";
 
 export default function Pages() {
   return (
@@ -13,7 +14,8 @@ export default function Pages() {
         <Route path="/" element={<HomePage />} />
         <Route path="/game" element={<GamePage />} />
         <Route path="/admin">
-          <Route path="create-game" element={<CreateGame />} />
+          <Route path="create-game" element={<CreateGamePage />} />
+          <Route path="edit-game/:id" element={<EditGamePage />} />
         </Route>
       </Route>
     </Routes>
