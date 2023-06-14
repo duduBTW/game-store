@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+
+import { getGameMainPart } from "@/service/game";
 import Typography from "@/components/design-system/typography";
-import Carousel from "@/components/design-system/carousel/carousel";
+import Carousel from "@/components/design-system/carousel";
+
 import {
   Container,
   BuyContainer,
   BottomPartContainer,
   GameDescription,
-  Image,
+  Styled,
   UpperPartContainer,
   Price,
   BuyButton,
@@ -14,36 +19,48 @@ import {
   StyledCarouselScroller,
 } from "./main-part.styles";
 
+function useId() {
+  const { id } = useParams();
+
+  if (!id) {
+    throw new Error("No id found!");
+  }
+
+  return id;
+}
+
+function useGame() {
+  const id = useId();
+
+  const { data } = useQuery(getGameMainPart.getKey(id), () =>
+    getGameMainPart(id)
+  );
+
+  if (!data) {
+    throw new Error("Why D:");
+  }
+
+  return data;
+}
+
 /* -------------------------------------------------------------------------------------------------
  * GameMainPart
  * -----------------------------------------------------------------------------------------------*/
 export default function GameMainPart() {
-  const [data, setData] = useState([
-    "https://pbs.twimg.com/media/FvM3ZIQaIAABixA?format=jpg&name=large",
-    "https://pbs.twimg.com/media/Fw5y919WIAAmCev?format=jpg&name=4096x4096",
-    "https://pbs.twimg.com/media/Fw3cwtKaIAE6rUr?format=jpg&name=large",
-    "https://pbs.twimg.com/media/FwKkNK7aMAAmvYb?format=jpg&name=large",
-  ]);
+  const id = useId();
+
+  const { isLoading, data } = useQuery(getGameMainPart.getKey(id), () =>
+    getGameMainPart(id)
+  );
+
+  if (isLoading || !data) {
+    return null;
+  }
 
   return (
     <Container>
       <UpperPart />
-
-      <Carousel.Provider numberOfItems={data.length}>
-        <CarouselUpperPartContainer size="small" centered>
-          <Carousel.Pagination />
-          <Carousel.Navegation />
-        </CarouselUpperPartContainer>
-
-        <StyledCarouselScroller tabIndex={0}>
-          {data.map((src, index) => (
-            <Carousel.SnapItem index={index}>
-              {({ isActive }) => <Image isActive={isActive} src={src} />}
-            </Carousel.SnapItem>
-          ))}
-        </StyledCarouselScroller>
-      </Carousel.Provider>
-
+      <CarouselPart />
       <BottomPart />
     </Container>
   );
@@ -53,6 +70,8 @@ export default function GameMainPart() {
  * UpperPart
  * -----------------------------------------------------------------------------------------------*/
 function UpperPart() {
+  const { title } = useGame();
+
   return (
     <UpperPartContainer size="small" centered>
       <Typography
@@ -62,7 +81,7 @@ function UpperPart() {
         size="3xl"
         lineHeight="title"
       >
-        MONSTER HUNTER RISE
+        {title}
       </Typography>
     </UpperPartContainer>
   );
@@ -71,21 +90,41 @@ function UpperPart() {
 /* -------------------------------------------------------------------------------------------------
  * Carousel
  * -----------------------------------------------------------------------------------------------*/
-// function Carousel() {
-//   return (
-//     <CarouselContainer tabIndex={0}>
-//       <Image src="https://pbs.twimg.com/media/FvM3ZIQaIAABixA?format=jpg&name=large" />
-//       <Image src="https://pbs.twimg.com/media/Fw5y919WIAAmCev?format=jpg&name=4096x4096" />
-//       <Image src="https://pbs.twimg.com/media/Fw3cwtKaIAE6rUr?format=jpg&name=large" />
-//       <Image src="https://pbs.twimg.com/media/FwAK-BvacAAMdwO?format=jpg&name=large" />
-//     </CarouselContainer>
-//   );
-// }
+function CarouselPart() {
+  const { Assets: assets } = useGame();
+
+  return (
+    <Carousel.Provider key={assets.length} numberOfItems={assets.length}>
+      <CarouselUpperPartContainer size="small" centered>
+        <Carousel.Pagination />
+        <Carousel.Navegation />
+      </CarouselUpperPartContainer>
+
+      <StyledCarouselScroller tabIndex={0}>
+        {assets.map((asset, index) => (
+          <Carousel.SnapItem index={index}>
+            {({ isActive }) => <Styled isActive={isActive} asset={asset} />}
+          </Carousel.SnapItem>
+        ))}
+      </StyledCarouselScroller>
+    </Carousel.Provider>
+  );
+}
 
 /* -------------------------------------------------------------------------------------------------
  * BottomPart
  * -----------------------------------------------------------------------------------------------*/
 function BottomPart() {
+  const { price } = useGame();
+  const formattedPrice = useMemo(
+    () =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(price),
+    [price]
+  );
+
   return (
     <BottomPartContainer size="small" centered>
       <GameDescription size="base" color="gray.300">
@@ -98,7 +137,7 @@ function BottomPart() {
 
       <BuyContainer>
         <Price size="lg" lineHeight="title">
-          R$ 200,00
+          {formattedPrice}
         </Price>
 
         <BuyButton>Buy</BuyButton>

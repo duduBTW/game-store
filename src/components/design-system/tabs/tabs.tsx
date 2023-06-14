@@ -73,7 +73,7 @@ function Trigger({ value, children, ...rest }: TriggerProps) {
       onFocus={handleFocus}
       onBlur={handleBlur}
       onClick={handleClick}
-      tabIndex={isSelected ? 1 : 0}
+      tabIndex={isSelected ? 0 : -1}
       aria-selected={isSelected}
       role="tab"
       aria-controls={getControlledAria(value)}
@@ -85,7 +85,12 @@ function Trigger({ value, children, ...rest }: TriggerProps) {
         handleTriggerRef(node, value);
       }}
     >
-      <Typography weight="medium">{children}</Typography>
+      <Typography
+        color={isSelected ? "gray.100" : "gray.300"}
+        weight={isSelected ? "medium" : "regular"}
+      >
+        {children}
+      </Typography>
     </button>
   );
 }
@@ -106,7 +111,7 @@ function Content({ children, value, ...rest }: ContentProps) {
       {...rest}
       role="tabpanel"
       aria-labelledby={getControlledAria(value)}
-      tabIndex={1}
+      tabIndex={0}
     >
       {children}
     </div>
@@ -127,8 +132,6 @@ export function useTabsValue({
 
   const handleTriggerRef = useCallback(
     (element: HTMLButtonElement, value: string) => {
-      console.log("pog");
-
       tabsTriggers.current[value] = element;
     },
     []

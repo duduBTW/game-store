@@ -9,6 +9,7 @@ const theme: DefaultTheme = {
     },
     gaps: {
       px: "0.1rem",
+      "0.5": "0.2rem",
       "1": "0.4rem",
       "2": "0.8rem",
       "3": "1.2rem",
@@ -25,10 +26,14 @@ const theme: DefaultTheme = {
     },
   },
   colors: {
+    loading: {
+      gradient:
+        "#3b9639 0%, #248126 7.29%, #28703c 37.5%, #216958 71.35%, #1d703e 100%",
+    },
     background: "#0B0B0B",
     backgroundRgb: "11, 11, 11",
     brand: {
-      gradiant: {
+      gradient: {
         main: "#4D356A 0%, #352E82 100%",
         light: "#6F32BD 0%, #3629CB 100%",
       },
@@ -93,6 +98,9 @@ const theme: DefaultTheme = {
     fromDesktop: "@media (min-width: 1360px)",
     fromTablet: "@media (min-width: 938px)",
     fromMobile: "@media (min-width: 720px)",
+  },
+  shadow: {
+    lg: "0px 20px 25px rgba(0, 0, 0, 0.1), 0px 10px 10px rgba(0, 0, 0, 0.04)",
   },
 };
 

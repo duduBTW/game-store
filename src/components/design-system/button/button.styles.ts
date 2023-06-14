@@ -38,14 +38,11 @@ export const StyledButton = styled.button<ButtonCustomization>(
             cursor: wait;
             background: linear-gradient(
               90deg,
-              #3b9639 0%,
-              #248126 7.29%,
-              #28703c 37.5%,
-              #216958 71.35%,
-              #1d703e 100%
+              ${theme.colors.loading.gradient}
             );
             background-size: 400% 400%;
             animation: ${loadingButtonAnimation} 10s ease infinite;
+            z-index: 2;
           `;
         }}
       }
@@ -59,7 +56,7 @@ export const StyledLoaderLineIcon = styled(LoaderLineIcon)(() => {
   `;
 });
 
-const loadingButtonAnimation = keyframes`
+export const loadingButtonAnimation = keyframes`
     0% {
         background-position: 0% 50%;
       }
@@ -71,7 +68,7 @@ const loadingButtonAnimation = keyframes`
       }
 `;
 
-const loadingIconSpinAnimation = keyframes`
+export const loadingIconSpinAnimation = keyframes`
     0% {
         transform: rotate(0);
       }
@@ -91,14 +88,14 @@ export function getButtonVariantStyles(
   switch (variant) {
     case "contained":
       return css`
-        background: linear-gradient(90deg, ${theme.colors.brand.gradiant.main});
+        background: linear-gradient(90deg, ${theme.colors.brand.gradient.main});
 
         &:hover,
         &:focus {
           transition: background 0.2s ease;
           background: linear-gradient(
             90deg,
-            ${theme.colors.brand.gradiant.light}
+            ${theme.colors.brand.gradient.light}
           );
         }
       `;

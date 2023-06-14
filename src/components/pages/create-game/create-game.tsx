@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+
 import { Game, NewGame, insetGame } from "@/service/game";
+import useFocustrap from "@/hooks/useFocustrap";
 import Typography from "@/components/design-system/typography/typography";
-import InputText from "@/components/design-system/input-text";
+import InputText from "@/components/design-system/input/text";
 import TitleIndicator from "@/components/design-system/title-indicator";
 import Button from "@/components/design-system/button/button";
+import LoadingOverlay from "@/components/design-system/loading-overlay";
+
 import {
   BottomPart,
   Container,
-  LoaderWrapper,
   SubmitButton,
   Wrapper,
 } from "./create-game.styles";
-import { useMutation } from "@tanstack/react-query";
 import {
   CreateGameFormProps,
   CreateGameSuccessProps,
@@ -45,29 +48,7 @@ function CreateGameForm({ onSuccess }: CreateGameFormProps) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
-  useEffect(() => {
-    if (!isLoading) {
-      return;
-    }
-
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Tab") {
-        return;
-      }
-
-      event.preventDefault();
-    };
-
-    window.document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isLoading]);
+  useFocustrap(isLoading);
 
   return (
     <Wrapper
@@ -78,7 +59,7 @@ function CreateGameForm({ onSuccess }: CreateGameFormProps) {
       centered
     >
       <Container size="small">
-        {isLoading && <LoaderWrapper />}
+        <LoadingOverlay isLoading={isLoading} />
 
         <TitleIndicator>
           <Typography

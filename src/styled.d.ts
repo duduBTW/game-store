@@ -15,6 +15,7 @@ type SolidColor = {
 
 export type GapSize =
   | "px"
+  | "0.5"
   | "1"
   | "2"
   | "3"
@@ -35,6 +36,8 @@ export type BorderRadiusSize = "small" | "medium" | "round";
 
 export type MediaQueryBreakPoints = "fromDesktop" | "fromTablet" | "fromMobile";
 
+export type ShadowIntensity = "lg";
+
 declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
@@ -43,7 +46,10 @@ declare module "styled-components" {
       brand: {
         main: string;
         light: string;
-        gradiant: { main: string; light: string };
+        gradient: { main: string; light: string };
+      };
+      loading: {
+        gradient: string;
       };
       gray: SolidColor;
       red: SolidColor;
@@ -56,5 +62,6 @@ declare module "styled-components" {
     };
     borderRadius: Record<BorderRadiusSize, string>;
     mq: Record<MediaQueryBreakPoints, string>;
+    shadow: Record<ShadowIntensity, string>;
   }
 }

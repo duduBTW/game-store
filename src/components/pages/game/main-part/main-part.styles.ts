@@ -3,6 +3,7 @@ import SizeContainer from "@/components/design-system/size-container/size-contai
 import Typography from "@/components/design-system/typography";
 import Button from "@/components/design-system/button/button";
 import Carousel from "@/components/design-system/carousel/carousel";
+import AssetDisplay from "@/components/design-system/assets/display";
 
 export const Container = styled.div(() => {
   return css`
@@ -96,21 +97,23 @@ interface ImageStyledProps {
   isActive?: boolean;
 }
 
-export const Image = styled.img<ImageStyledProps>(({ theme, isActive }) => {
-  return css`
-    pointer-events: none;
-    width: ${theme.sizes.container.small};
-    max-width: calc(100vw - ${theme.sizes.gaps["12"]});
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    object-position: center 20%;
-    border-radius: ${theme.borderRadius.medium};
-    transition: opacity 0.25s ease-out;
-    opacity: 1;
+export const Styled = styled(AssetDisplay)<ImageStyledProps>(
+  ({ theme, isActive }) => {
+    return css`
+      pointer-events: none;
+      width: ${theme.sizes.container.small};
+      max-width: calc(100vw - ${theme.sizes.gaps["12"]});
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: center 20%;
+      border-radius: ${theme.borderRadius.medium};
+      transition: opacity 0.25s ease-out;
+      opacity: 1;
 
-    ${!isActive &&
-    css`
-      opacity: 0.08;
-    `}
-  `;
-});
+      ${!isActive &&
+      css`
+        opacity: 0.08;
+      `}
+    `;
+  }
+);

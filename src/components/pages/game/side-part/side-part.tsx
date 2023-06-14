@@ -17,6 +17,7 @@ import {
   StyledReviewStatistcs,
 } from "./side-part.styles";
 import Carousel from "@/components/design-system/carousel/carousel";
+import { useTheme } from "styled-components";
 
 const TABS = {
   REVIEW: "reviews",
@@ -127,7 +128,10 @@ export function GameSidePartIcon() {
 // Hooks
 // ----------------
 function useGameSidePartValue() {
-  const [sidepartActive, setSidepartActive] = useState(true);
+  const theme = useTheme();
+  const [sidepartActive, setSidepartActive] = useState(
+    () => window.matchMedia(theme.mq.fromDesktop.replace("@media ", "")).matches
+  );
 
   const [stylesDeskop] = useSpring(() => {
     return {

@@ -12,7 +12,7 @@ export default function Pages() {
     <Routes>
       <Route element={<DefautLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/game" element={<GamePage />} />
+        <Route path="/game/:id" element={<GamePage />} />
         <Route path="/admin">
           <Route path="create-game" element={<CreateGamePage />} />
           <Route path="edit-game/:id" element={<EditGamePage />} />

@@ -4,4 +4,5 @@ export type {
   RootProps,
   TriggerProps,
   UseTabsValueProps,
+  ContentProps,
 } from "./tabs.props";
