@@ -6,7 +6,7 @@ export const StyledInput = styled.input(({ theme }) => {
     ${getTypographySizeStyles("base")}
     flex: 1;
 
-    background-color: ${theme.colors.background};
+    background-color: ${theme.colors.background.main};
     border: ${theme.sizes.gaps["0.5"]} solid ${theme.colors.gray["800"]};
     outline: none;
     color: ${theme.colors.gray["100"]};

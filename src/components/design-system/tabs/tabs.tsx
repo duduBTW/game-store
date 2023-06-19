@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import {
   createContext,
   useCallback,
@@ -125,6 +126,7 @@ export function useTabsValue({
   defaultValue,
   direction = "horizontal",
 }: UseTabsValueProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const tabsTriggers = useRef<TabTriggerRecord>({});
 
   const [focused, setFocused] = useState(false);
@@ -142,8 +144,27 @@ export function useTabsValue({
       return;
     }
 
+    const queryStringSelectedTab = searchParams.get("selectedTab");
+
+    if (queryStringSelectedTab) {
+      setSelectedTab(queryStringSelectedTab);
+      return;
+    }
+
     setSelectedTab(getFirstSelectedTab(tabsTriggers.current));
-  }, [selectedTab]);
+  }, [searchParams, selectedTab]);
+
+  useLayoutEffect(() => {
+    if (!selectedTab) {
+      return;
+    }
+
+    setSearchParams((prevParams) => {
+      prevParams.set("selectedTab", selectedTab);
+
+      return prevParams;
+    });
+  }, [selectedTab, setSearchParams]);
 
   useEffect(() => {
     if (!selectedTab || !focused) {

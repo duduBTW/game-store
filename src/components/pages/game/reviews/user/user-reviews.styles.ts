@@ -1,4 +1,3 @@
-import Typography from "@/components/design-system/typography/typography";
 import styled, { DefaultTheme, css } from "styled-components";
 import { StatusProps as StyledStatusProps } from "./user-reviews.props";
 
@@ -25,32 +24,17 @@ export const UserReviewCardUpperPart = styled.header(({ theme }) => {
   `;
 });
 
-export const UserName = styled(Typography)(() => {
+export const ReviewCreationInfo = styled.div(() => {
   return css`
     text-align: end;
   `;
 });
 
-export const UserAvatar = styled.img(({ theme }) => {
-  return css`
-    width: ${theme.sizes.gaps["10"]};
-    height: ${theme.sizes.gaps["10"]};
-    border-radius: ${theme.borderRadius.round};
-  `;
-});
-
 export const Status = styled.div<StyledStatusProps>(
-  ({ theme, styledStatus }) => {
-    let statusColor: keyof DefaultTheme["colors"] = "gray";
-
-    switch (styledStatus) {
-      case "liked":
-        statusColor = "blue";
-        break;
-      case "desliked":
-        statusColor = "red";
-        break;
-    }
+  ({ theme, styledLiked }) => {
+    const statusColor: keyof DefaultTheme["colors"] = styledLiked
+      ? "blue"
+      : "red";
 
     return css`
       display: grid;
@@ -66,26 +50,9 @@ export const Status = styled.div<StyledStatusProps>(
 
 export const UserReviewCardFeedback = styled.div(({ theme }) => {
   return css`
-    display: inline-flex;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
     margin-top: ${theme.sizes.gaps["5"]};
     gap: ${theme.sizes.gaps["2"]};
-  `;
-});
-
-export const StyledUserReviewFeedbackButton = styled.button(({ theme }) => {
-  return css`
-    padding: 0 ${theme.sizes.gaps["3"]};
-    height: ${theme.sizes.gaps["6"]};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${theme.sizes.gaps["2"]};
-    border: ${theme.sizes.gaps.px} solid ${theme.colors.blueGray["800"]};
-    border-radius: ${theme.borderRadius.round};
-
-    &:hover {
-      cursor: pointer;
-      background-color: ${theme.colors.blueGray["900"]};
-    }
   `;
 });

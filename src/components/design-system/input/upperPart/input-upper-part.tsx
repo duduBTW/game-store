@@ -9,11 +9,13 @@ function InputUpperPart({ name, label, fieldState }: Props) {
 
   return (
     <UpperPartContainer>
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <Typography as="label" htmlFor={name}>
-        {label}
-      </Typography>
+      {label && (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <Typography as="label" htmlFor={name}>
+          {label}
+        </Typography>
+      )}
       {fieldState.error && (
         <Typography size="sm" color="red.500">
           {fieldState.error.message}

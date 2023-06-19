@@ -30,8 +30,10 @@ const theme: DefaultTheme = {
       gradient:
         "#3b9639 0%, #248126 7.29%, #28703c 37.5%, #216958 71.35%, #1d703e 100%",
     },
-    background: "#0B0B0B",
-    backgroundRgb: "11, 11, 11",
+    background: {
+      main: "#0B0B0B",
+      rgb: "11, 11, 11",
+    },
     brand: {
       gradient: {
         main: "#4D356A 0%, #352E82 100%",

@@ -15,9 +15,18 @@ import {
   StyledCarouselScroller,
   StyledUserReviewList,
   StyledReviewStatistcs,
+  StyledCreateReview,
 } from "./side-part.styles";
 import Carousel from "@/components/design-system/carousel/carousel";
 import { useTheme } from "styled-components";
+import { useParams } from "react-router";
+import StatisticsRecentChart from "../reviews/statistics-recent-chart";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getGameReviewsAllStatistics,
+  getGameReviewsRecentStatistics,
+} from "@/service/game-review";
+import BarGraph from "../reviews/statistics-all-chart/statistics-all-chart";
 
 const TABS = {
   REVIEW: "reviews",
@@ -82,30 +91,82 @@ export function GameSidePartContent() {
 // Reviews
 // ----------------
 function Reviews() {
+  const gameId = useGameId();
+
   return (
     <>
       <ReviewsStatistcsCarousel />
-      <StyledUserReviewList />
+      <StyledCreateReview gameId={gameId} />
+      <StyledUserReviewList gameId={gameId} />
     </>
   );
 }
 
 function ReviewsStatistcsCarousel() {
   return (
-    <Carousel.Provider numberOfItems={3}>
+    <Carousel.Provider numberOfItems={2}>
       <CarouselUpperPartContainer size="small" centered>
         <Carousel.Pagination />
         <Carousel.Navegation />
       </CarouselUpperPartContainer>
 
       <StyledCarouselScroller>
-        {["a", "b", "c"].map((src, index) => (
-          <Carousel.SnapItem index={index}>
-            {({ isActive }) => <StyledReviewStatistcs />}
-          </Carousel.SnapItem>
-        ))}
+        <Carousel.SnapItem index={0}>
+          {({ isActive }) => <ReviewRecentStatistcs data-active={isActive} />}
+        </Carousel.SnapItem>
+        <Carousel.SnapItem index={1}>
+          {({ isActive }) => <ReviewAllStatistcs data-active={isActive} />}
+        </Carousel.SnapItem>
       </StyledCarouselScroller>
     </Carousel.Provider>
+  );
+}
+
+function ReviewRecentStatistcs(props: React.HTMLAttributes<HTMLDivElement>) {
+  const gameId = useGameId();
+
+  const { data: reviews } = useQuery(
+    getGameReviewsRecentStatistics.getKey(gameId),
+    () => getGameReviewsRecentStatistics(gameId)
+  );
+
+  if (!reviews) {
+    return null;
+  }
+
+  return (
+    <StyledReviewStatistcs
+      {...props}
+      title="Recent reviews"
+      ratio={reviews.ratio}
+      total={reviews.quantity.total}
+      chart={
+        <StatisticsRecentChart height={94} width={140} reviews={reviews} />
+      }
+    />
+  );
+}
+
+function ReviewAllStatistcs(props: React.HTMLAttributes<HTMLDivElement>) {
+  const gameId = useGameId();
+
+  const { data: reviews } = useQuery(
+    getGameReviewsAllStatistics.getKey(gameId),
+    () => getGameReviewsAllStatistics(gameId)
+  );
+
+  if (!reviews) {
+    return null;
+  }
+
+  return (
+    <StyledReviewStatistcs
+      {...props}
+      title="All reviews"
+      ratio={reviews.ratio}
+      total={reviews.total}
+      chart={<BarGraph reviews={reviews} />}
+    />
   );
 }
 
@@ -169,6 +230,16 @@ function useGameSidePart() {
   }
 
   return value;
+}
+
+function useGameId() {
+  const { id } = useParams();
+
+  if (!id) {
+    throw new Error("No id found!");
+  }
+
+  return id;
 }
 
 //

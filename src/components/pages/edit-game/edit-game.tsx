@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import FocusTrap from "focus-trap-react";
 import CloseLineIcon from "remixicon-react/CloseLineIcon";
 import DeleteBin7LineIcon from "remixicon-react/DeleteBin7LineIcon";
@@ -32,7 +32,7 @@ import {
 import {
   AssetItemProps,
   AssetListProps,
-  GameTitleFormProps,
+  GameSingleInputFormProps,
   Params,
 } from "./edit-game.props";
 import {
@@ -48,6 +48,7 @@ import {
   SidePartTrigger,
   StyledTabsContent,
 } from "./edit-game.styles";
+import InputEditor from "@/components/design-system/input/editor/input-editor";
 
 const TABS = {
   TITLE: "title",
@@ -56,13 +57,17 @@ const TABS = {
   ASSETS: "assets",
 } as const;
 
-function EditGamePage() {
+function useId() {
   const { id } = useParams<Params>();
 
   if (!id) {
-    return null;
+    throw new Error("");
   }
 
+  return id;
+}
+
+function EditGamePage() {
   return (
     <Tabs.Root direction="vertical">
       <Container>
@@ -77,19 +82,19 @@ function EditGamePage() {
 
         <MainPartContainerWrapper>
           <MainPartContainer size="small">
-            <Nav id={id} />
+            <Nav />
 
             <StyledTabsContent value={TABS.TITLE}>
-              <GameTitleForm id={id} />
+              <GameTitleForm />
             </StyledTabsContent>
             <StyledTabsContent value={TABS.PRICE}>
-              <GamePriceForm id={id} />
+              <GamePriceForm />
             </StyledTabsContent>
             <StyledTabsContent value={TABS.SIMPLE_DESCRIPTION}>
-              Simples desc content {id}
+              <GameSimpleDescription />
             </StyledTabsContent>
             <StyledTabsContent value={TABS.ASSETS}>
-              <GameAssets id={id} />
+              <GameAssets />
             </StyledTabsContent>
           </MainPartContainer>
         </MainPartContainerWrapper>
@@ -101,7 +106,9 @@ function EditGamePage() {
 // ------------
 // Nav
 // ------------
-function Nav({ id }: GameTitleFormProps) {
+function Nav() {
+  const id = useId();
+
   const { data: game } = useQuery(getGame.getKey(id), () => getGame(id));
 
   return (
@@ -116,12 +123,11 @@ function Nav({ id }: GameTitleFormProps) {
 }
 
 // --------------------
-// Game title form
+// Game single input form
 // --------------------
-function GameTitleForm({ id, ...rest }: GameTitleFormProps) {
-  const formMethods = useForm<UpdateGameData>();
-  const { control, handleSubmit } = formMethods;
-
+function GameSingleInputForm({ children, ...rest }: GameSingleInputFormProps) {
+  const id = useId();
+  const { control, handleSubmit } = useForm<UpdateGameData>();
   const { data, refetch } = useQuery(getGame.getKey(id), () => getGame(id));
 
   const { mutate: handleGameUpdate, isLoading } = useMutation(
@@ -134,71 +140,77 @@ function GameTitleForm({ id, ...rest }: GameTitleFormProps) {
   return (
     <GameSingleInputFormContainer
       {...rest}
-      {...formMethods}
       onSubmit={handleSubmit((d) => handleGameUpdate(d))}
     >
       <LoadingOverlay isLoading={isLoading} />
 
-      {data ? (
+      {data ? children(data, control) : <div />}
+
+      <Button isLoading={isLoading}>Save</Button>
+    </GameSingleInputFormContainer>
+  );
+}
+
+// --------------------
+// Game title form
+// --------------------
+function GameTitleForm() {
+  return (
+    <GameSingleInputForm>
+      {(data, control) => (
         <InputText
           label="Game title"
           name="title"
           control={control}
           defaultValue={data.title}
         />
-      ) : (
-        <div />
       )}
-
-      <Button isLoading={isLoading}>Save</Button>
-    </GameSingleInputFormContainer>
+    </GameSingleInputForm>
   );
 }
 
 // --------------------
-// Game title form
+// Game price form
 // --------------------
-function GamePriceForm({ id, ...rest }: GameTitleFormProps) {
-  const formMethods = useForm<UpdateGameData>();
-  const { control, handleSubmit } = formMethods;
-
-  const { data, refetch } = useQuery(getGame.getKey(id), () => getGame(id));
-
-  const { mutate: handleGameUpdate, isLoading } = useMutation(
-    updateGameFactory(id),
-    {
-      onSuccess: () => refetch(),
-    }
-  );
-
+function GamePriceForm() {
   return (
-    <GameSingleInputFormContainer
-      {...rest}
-      {...formMethods}
-      onSubmit={handleSubmit((d) => handleGameUpdate(d))}
-    >
-      <LoadingOverlay isLoading={isLoading} />
-
-      {data ? (
+    <GameSingleInputForm>
+      {(data, control) => (
         <InputCurrency
           label="Game price"
           name="price"
           control={control}
           defaultValue={data.price}
         />
-      ) : (
-        <div />
       )}
+    </GameSingleInputForm>
+  );
+}
 
-      <Button isLoading={isLoading}>Save</Button>
-    </GameSingleInputFormContainer>
+// --------------------
+// Game simple description
+// --------------------
+function GameSimpleDescription() {
+  return (
+    <GameSingleInputForm>
+      {(data, control) => (
+        <InputEditor
+          label="Game description"
+          name="description"
+          control={control}
+          defaultValue={data.description}
+        />
+      )}
+    </GameSingleInputForm>
   );
 }
 
 // --------------------
 // Game assets
 // --------------------
-function GameAssets({ id }: Params) {
+function GameAssets() {
+  const id = useId();
+
   const { data: assets, isLoading } = useQuery(getGameAsset.getKey(id), () =>
     getGameAsset(id)
   );
@@ -219,7 +231,7 @@ function GameAssets({ id }: Params) {
       );
     }
 
-    return <AssetList id={id} assets={assets} />;
+    return <AssetList assets={assets} />;
   };
 
   return (
@@ -237,7 +249,7 @@ function GameAssets({ id }: Params) {
   );
 }
 
-function AssetList({ assets, id }: AssetListProps) {
+function AssetList({ assets }: AssetListProps) {
   return (
     <AssetListContainer>
       <TitleIndicator>
@@ -245,13 +257,14 @@ function AssetList({ assets, id }: AssetListProps) {
       </TitleIndicator>
 
       {assets.map((asset) => (
-        <AssetItem id={id} key={asset.id} asset={asset} />
+        <AssetItem key={asset.id} asset={asset} />
       ))}
     </AssetListContainer>
   );
 }
 
-function AssetItem({ asset, id }: AssetItemProps) {
+function AssetItem({ asset }: AssetItemProps) {
+  const id = useId();
   const [editing, setEditing] = useState(false);
   const queryClient = useQueryClient();
 

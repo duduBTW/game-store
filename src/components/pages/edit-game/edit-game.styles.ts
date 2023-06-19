@@ -18,7 +18,7 @@ export const SidePartContainer = styled(Tabs.List)(({ theme }) => {
     align-items: flex-end;
     gap: ${theme.sizes.gaps["1"]};
     padding: ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["4"]};
-    background-color: ${theme.colors.background};
+    background-color: ${theme.colors.background.main};
     border-right: ${theme.sizes.gaps.px} solid ${theme.colors.gray["800"]};
   `;
 });
@@ -65,12 +65,13 @@ export const StyledTabsContent = styled(Tabs.Content)(() => {
   `;
 });
 
-export const GameSingleInputFormContainer = styled.form(() => {
+export const GameSingleInputFormContainer = styled.form(({ theme }) => {
   return css`
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: ${theme.sizes.gaps["4"]};
   `;
 });
 

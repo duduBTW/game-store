@@ -9,19 +9,30 @@ import {
   TypographyLineHeight,
 } from "./typography.props";
 
-export const Container = styled.p<TypographyCustomization>(
-  ({ theme, size, color, weight, fontFamily, lineHeight }) => {
-    return css`
-      ${getTypographySizeStyles(size)}
-      ${getTypographyWeightStyles(weight)}
-      ${getTypographyFontFamilyStyles(fontFamily)}
-      ${getTypographyLineHeight(lineHeight)}
-      ${getTypographyColorStyles(theme, color)}
-    `;
-  }
-);
+export const Container = styled.p<TypographyCustomization>((data) => {
+  return getTypographyStyles(data);
+});
 
 // Elpers
+export const getTypographyStyles = ({
+  theme,
+  size,
+  color,
+  weight,
+  fontFamily,
+  lineHeight,
+}: TypographyCustomization & {
+  theme: DefaultTheme;
+}) => {
+  return css`
+    ${getTypographySizeStyles(size)}
+    ${getTypographyWeightStyles(weight)}
+    ${getTypographyFontFamilyStyles(fontFamily)}
+    ${getTypographyLineHeight(lineHeight)}
+    ${getTypographyColorStyles(theme, color)}
+  `;
+};
+
 export const getTypographyLineHeight = (lineHeight: TypographyLineHeight) => {
   switch (lineHeight) {
     case "paragraph":

@@ -254,6 +254,7 @@ function getScrollItemScrollLeft(
   );
 
   const firstElement = scrollItemRefs[0] as HTMLElement | undefined;
+
   const scrollToElement = scrollItemRefs[destinationIndex] as
     | HTMLElement
     | undefined;

@@ -1,4 +1,3 @@
-export interface GameSidePartProviderProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GameSidePartProviderProps {
   children: React.ReactNode;
 }

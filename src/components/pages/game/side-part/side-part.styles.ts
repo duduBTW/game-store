@@ -4,12 +4,13 @@ import Tabs from "@/components/design-system/tabs";
 import Carousel from "@/components/design-system/carousel/carousel";
 import UserReviewList from "../reviews/user";
 import ReviewStatistcs from "../reviews/statistics/reviews-statistics";
+import CreateReview from "../reviews/create";
 
 export const AbsoluteContainer = styled(SizeContainer)(({ theme }) => {
   const { sizes, mq } = theme;
 
   return css`
-    background-color: ${theme.colors.background};
+    background-color: ${theme.colors.background.main};
     border-left: 0.1rem solid ${theme.colors.gray["800"]};
     position: absolute;
     right: 0;
@@ -89,14 +90,26 @@ export const StyledUserReviewList = styled(UserReviewList)(({ theme }) => {
   `;
 });
 
+export const StyledCreateReview = styled(CreateReview)(({ theme }) => {
+  return css`
+    margin: ${theme.sizes.gaps["10"]} ${getHorizontalGap(theme)} 0;
+  `;
+});
+
 export const StyledReviewStatistcs = styled(ReviewStatistcs)(({ theme }) => {
   return css`
+    opacity: 0.4;
     // prettier-ignore
     width: calc(
       ${theme.sizes.container.small} - ${getHorizontalGap(
       theme
     )} - ${getHorizontalGap(theme)}
     );
+
+    transition: opacity 0.2s ease;
+    &[data-active="true"] {
+      opacity: 1;
+    }
   `;
 });
 

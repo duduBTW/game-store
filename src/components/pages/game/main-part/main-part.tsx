@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import * as dompurify from "isomorphic-dompurify";
 
 import { getGameMainPart } from "@/service/game";
 import Typography from "@/components/design-system/typography";
@@ -102,7 +103,7 @@ function CarouselPart() {
 
       <StyledCarouselScroller tabIndex={0}>
         {assets.map((asset, index) => (
-          <Carousel.SnapItem index={index}>
+          <Carousel.SnapItem index={index} key={asset.id}>
             {({ isActive }) => <Styled isActive={isActive} asset={asset} />}
           </Carousel.SnapItem>
         ))}
@@ -115,7 +116,7 @@ function CarouselPart() {
  * BottomPart
  * -----------------------------------------------------------------------------------------------*/
 function BottomPart() {
-  const { price } = useGame();
+  const { price, description } = useGame();
   const formattedPrice = useMemo(
     () =>
       new Intl.NumberFormat("pt-BR", {
@@ -125,15 +126,21 @@ function BottomPart() {
     [price]
   );
 
+  const purifiedDescription = useMemo(() => {
+    if (!dompurify.isSupported) {
+      return description;
+    }
+
+    return dompurify.sanitize(description);
+  }, [description]);
+
   return (
     <BottomPartContainer size="small" centered>
-      <GameDescription size="base" color="gray.300">
-        Rise to the challenge and join the hunt! In Monster Hunter Rise, the
-        latest installment in the award-winning and top-selling Monster Hunter
-        series, you’ll become a hunter, explore brand new maps and use a variety
-        of weapons to take down fearsome monsters as part of an all-new
-        storyline.
-      </GameDescription>
+      <GameDescription
+        dangerouslySetInnerHTML={{
+          __html: purifiedDescription,
+        }}
+      />
 
       <BuyContainer>
         <Price size="lg" lineHeight="title">

@@ -15,8 +15,10 @@ export interface TypographyCustomization {
   lineHeight: TypographyLineHeight;
 }
 
-export interface Props extends Partial<TypographyCustomization> {
+export interface Props
+  extends Partial<TypographyCustomization>,
+    Omit<React.HTMLAttributes<HTMLElement>, "color"> {
   as?: React.ElementType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }

@@ -4,6 +4,7 @@ export interface Game {
   id: string;
   title: string;
   price: number;
+  description: string;
 }
 
 export async function getGame(id: string) {

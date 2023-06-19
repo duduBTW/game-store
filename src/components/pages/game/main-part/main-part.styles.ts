@@ -4,6 +4,7 @@ import Typography from "@/components/design-system/typography";
 import Button from "@/components/design-system/button/button";
 import Carousel from "@/components/design-system/carousel/carousel";
 import AssetDisplay from "@/components/design-system/assets/display";
+import getHtmlCss from "@/components/design-system/html";
 
 export const Container = styled.div(() => {
   return css`
@@ -62,10 +63,15 @@ export const BottomPartContainer = styled(SizeContainer)(({ theme }) => {
   `;
 });
 
-export const GameDescription = styled(Typography)(() => {
+export const GameDescription = styled.div(({ theme }) => {
   return css`
     hyphens: auto;
     text-align: justify;
+    ${getHtmlCss(theme)}
+
+    p {
+      color: ${theme.colors.gray["300"]};
+    }
   `;
 });
 

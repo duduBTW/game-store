@@ -1,27 +1,14 @@
-import { RemixiconReactIconComponentType } from "remixicon-react";
+import { GameReview } from "@/service/game-review";
 
-export interface UserReview {
-  status: "liked" | "desliked";
-  user: {
-    profilePicture: string;
-    name: string;
-  };
-  review: string;
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  gameId: string;
 }
-
-export interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export interface UserReviewCardProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  review: UserReview;
+  review: GameReview;
 }
 
 export interface StatusProps {
-  styledStatus: UserReview["status"];
-}
-
-export interface UserReviewFeedbackButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  startIcon?: RemixiconReactIconComponentType;
+  styledLiked: GameReview["liked"];
 }

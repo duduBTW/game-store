@@ -198,7 +198,7 @@ function useAssetsModalValue() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      keyPressedHandlers[event.key]();
+      keyPressedHandlers[event.key]?.();
     };
 
     window.addEventListener("keydown", onKeyDown);

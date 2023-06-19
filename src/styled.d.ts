@@ -41,8 +41,10 @@ export type ShadowIntensity = "lg";
 declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
-      background: string;
-      backgroundRgb: string;
+      background: {
+        main: string;
+        rgb: string;
+      };
       brand: {
         main: string;
         light: string;

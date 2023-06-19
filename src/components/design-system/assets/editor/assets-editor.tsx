@@ -35,6 +35,40 @@ function AssetsEditor({
 
   const { handleSubmit, watch, setError } = formMethods;
 
+  const handleSubmitMiddleware = async (newAsset: NewAsset) => {
+    if (!onSubmit) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const isValidImage = await getIsValidImage(newAsset.contentUrl);
+
+      if (!isValidImage) {
+        throw new Error("");
+      }
+    } catch (error) {
+      setError("contentUrl", {
+        message: "Asset is invalid",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const submitStatus = await onSubmit(newAsset);
+
+    setIsLoading(false);
+
+    if (submitStatus === true) {
+      return;
+    }
+
+    setError("contentUrl", {
+      message: submitStatus,
+    });
+  };
+
   useEffect(() => {
     const subscription = watch(async (value) => {
       if (!value.contentUrl) {
@@ -61,43 +95,7 @@ function AssetsEditor({
     <FormProvider {...formMethods}>
       <LoadingOverlay isLoading={showLoader} />
 
-      <Container
-        onSubmit={handleSubmit(async (newAsset) => {
-          if (!onSubmit) {
-            return;
-          }
-
-          setIsLoading(true);
-
-          try {
-            const isValidImage = await getIsValidImage(
-              newAsset.contentUrl
-            ).catch(() => setIsLoading(false));
-
-            if (!isValidImage) {
-              throw new Error("");
-            }
-          } catch (error) {
-            setError("contentUrl", {
-              message: "Asset is invalid",
-            });
-            setIsLoading(false);
-            return;
-          }
-
-          const submitStatus = await onSubmit(newAsset);
-
-          setIsLoading(false);
-
-          if (submitStatus === true) {
-            return;
-          }
-
-          setError("contentUrl", {
-            message: submitStatus,
-          });
-        })}
-      >
+      <Container onSubmit={handleSubmit(handleSubmitMiddleware)}>
         {upperPart && <UpperPart {...upperPart} />}
         <AssetDisplay asset={asset} />
         <BottomPart isLoading={showLoader} />
