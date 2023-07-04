@@ -1,6 +1,5 @@
 export interface CarouselProviderProps {
   children: React.ReactNode;
-  numberOfItems: number;
 }
 
 export interface CarouselScrollerProps

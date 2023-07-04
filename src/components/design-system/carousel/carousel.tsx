@@ -1,4 +1,5 @@
 import {
+  Children,
   createContext,
   useCallback,
   useContext,
@@ -28,10 +29,8 @@ const CarouselContext = createContext<null | ReturnType<
   typeof useCarouselValue
 >>(null);
 
-function Provider({ children, numberOfItems }: CarouselProviderProps) {
-  const value = useCarouselValue({
-    numberOfItems,
-  });
+function Provider({ children }: CarouselProviderProps) {
+  const value = useCarouselValue();
 
   return (
     <CarouselContext.Provider value={value}>
@@ -41,7 +40,11 @@ function Provider({ children, numberOfItems }: CarouselProviderProps) {
 }
 
 function Scroller({ children, ...rest }: CarouselScrollerProps) {
-  const { scrollerRef } = useCarousel();
+  const { scrollerRef, setChildren } = useCarousel();
+
+  useEffect(() => {
+    setChildren(children);
+  }, [children, setChildren]);
 
   return (
     <ScrollerContainer {...rest} ref={scrollerRef} tabIndex={0}>
@@ -121,11 +124,14 @@ const ROOT_MARGIN = "0px -50%";
 // ----------------
 // Hooks
 // ----------------
-function useCarouselValue({ numberOfItems }: { numberOfItems: number }) {
+function useCarouselValue() {
+  const [children, setChildren] = useState<React.ReactNode>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   const scrollItemRefs = useRef<Element[]>([]);
+
+  const numberOfItems = useMemo(() => Children.count(children), [children]);
 
   const canSlideTo = useMemo(
     () => canSlideToFactory(activeIndex, numberOfItems),
@@ -202,6 +208,7 @@ function useCarouselValue({ numberOfItems }: { numberOfItems: number }) {
     activeIndex,
     slideTo,
     canSlideTo,
+    setChildren,
   } as const;
 }
 

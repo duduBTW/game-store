@@ -104,7 +104,7 @@ function Reviews() {
 
 function ReviewsStatistcsCarousel() {
   return (
-    <Carousel.Provider numberOfItems={2}>
+    <Carousel.Provider>
       <CarouselUpperPartContainer size="small" centered>
         <Carousel.Pagination />
         <Carousel.Navegation />
@@ -220,7 +220,7 @@ function useGameSidePartValue() {
   } as const;
 }
 
-function useGameSidePart() {
+export function useGameSidePart() {
   const value = useContext(GameSidePartContext);
 
   if (value === null) {

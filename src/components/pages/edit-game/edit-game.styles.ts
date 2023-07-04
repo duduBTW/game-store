@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import Tabs from "@/components/design-system/tabs";
 import SizeContainer from "@/components/design-system/size-container/size-container";
 import Modal from "@/components/design-system/modal";
+import { NavUpperPart } from "@/components/design-system/nav";
 
 export const Container = styled.div(() => {
   return css`
@@ -42,17 +43,25 @@ export const SidePartTrigger = styled(Tabs.Trigger)(({ theme }) => {
   `;
 });
 
-export const MainPartContainerWrapper = styled.div(() => {
+export const MainPartContainerWrapper = styled.div(({ theme }) => {
   return css`
     width: 100%;
     flex: 1;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  `;
+});
+
+export const StyledNavUpperPart = styled(NavUpperPart)(({ theme }) => {
+  return css`
+    padding-left: ${theme.sizes.gaps["16"]};
   `;
 });
 
 export const MainPartContainer = styled(SizeContainer)(({ theme }) => {
   return css`
-    height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding: ${theme.sizes.gaps["12"]} ${theme.sizes.gaps["16"]};
@@ -61,6 +70,7 @@ export const MainPartContainer = styled(SizeContainer)(({ theme }) => {
 
 export const StyledTabsContent = styled(Tabs.Content)(() => {
   return css`
+    flex: 1;
     height: 100%;
   `;
 });
@@ -79,15 +89,6 @@ export const NavContainer = styled.div(({ theme }) => {
   return css`
     display: flex;
     margin-bottom: ${theme.sizes.gaps["10"]};
-  `;
-});
-
-export const Logo = styled.img(({ theme }) => {
-  return css`
-    width: ${theme.sizes.gaps["10"]};
-    height: ${theme.sizes.gaps["10"]};
-    margin-right: ${theme.sizes.gaps["6"]};
-    border-radius: ${theme.borderRadius.round};
   `;
 });
 
@@ -114,6 +115,5 @@ export const AssetListContainer = styled.div(({ theme }) => {
     display: flex;
     flex-direction: column;
     gap: ${theme.sizes.gaps["6"]};
-    padding-bottom: ${theme.sizes.gaps["10"]};
   `;
 });

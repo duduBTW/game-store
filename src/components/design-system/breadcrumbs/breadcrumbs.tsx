@@ -4,9 +4,7 @@ import { BreadcrumbsContainer } from "./breadcrumbs.styles";
 
 function Breadcrumbs({ children }: Props) {
   const childrenCount = Children.count(children);
-  const content: React.ReactNode[] = [
-    <BreadcrumbsSeparator key={"first-separator"} />,
-  ];
+  const content: React.ReactNode[] = [];
 
   Children.forEach(children, (child, index) => {
     content.push(child);

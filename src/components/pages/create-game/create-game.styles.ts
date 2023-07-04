@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 
 export const Wrapper = styled(SizeContainer)(({ theme }) => {
   return css`
+    height: 100%;
     padding: 0 ${theme.sizes.gaps["4"]};
 
     ${theme.mq.fromDesktop} {
@@ -14,11 +15,10 @@ export const Wrapper = styled(SizeContainer)(({ theme }) => {
 
 export const Container = styled(SizeContainer)(({ theme }) => {
   return css`
-    padding-top: ${theme.sizes.gaps["32"]};
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    padding-bottom: ${theme.sizes.gaps["16"]};
+    padding-bottom: ${theme.sizes.gaps["8"]};
     gap: ${theme.sizes.gaps["8"]};
   `;
 });

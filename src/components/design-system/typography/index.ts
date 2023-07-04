@@ -9,4 +9,4 @@ export {
   Container,
   FONT_SIZES,
 } from "./typography.styles";
-export { type Props } from "./typography.props";
+export type { Props, TypographyCustomization } from "./typography.props";

@@ -13,12 +13,18 @@ export async function getGame(id: string) {
 
 getGame.getKey = (id: string) => ["get-game", id];
 
-export interface GameMainPart extends Game {
+export async function getGameList() {
+  return await ofetch<GameWithAssets[]>(`http://localhost:3001/game`);
+}
+
+getGameList.getKey = () => ["get-game-list"] as const;
+
+export interface GameWithAssets extends Game {
   Assets: Asset[];
 }
 
 export async function getGameMainPart(id: string) {
-  return await ofetch<GameMainPart>(
+  return await ofetch<GameWithAssets>(
     `http://localhost:3001/game/${id}/main-part`
   );
 }

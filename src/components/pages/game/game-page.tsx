@@ -1,3 +1,4 @@
+import FocusTrap from "focus-trap-react";
 import AssetsModal from "@/components/design-system/assets/modal";
 import { Container } from "./game-page.styles";
 import GameMainPart from "./main-part";
@@ -7,17 +8,21 @@ export default function GamePage() {
   return (
     <AssetsModal.Root>
       <Container>
-        <GameMainPart />
-
         <GameSidePart.Provider>
+          <GameMainPart />
+
           <GameSidePart.Content />
           <GameSidePart.Icon />
         </GameSidePart.Provider>
       </Container>
 
       <AssetsModal.Portal>
-        <AssetsModal.Overlay />
-        <AssetsModal.Content />
+        <FocusTrap>
+          <div>
+            <AssetsModal.Overlay />
+            <AssetsModal.Content />
+          </div>
+        </FocusTrap>
       </AssetsModal.Portal>
     </AssetsModal.Root>
   );

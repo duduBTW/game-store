@@ -17,4 +17,10 @@ export interface Props
     Partial<ButtonCustomization> {
   children?: React.ReactNode;
   startIcon?: RemixiconReactIconComponentType;
+  as?: React.ElementType;
+}
+
+export interface AdditionalInfoProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  label: string;
 }

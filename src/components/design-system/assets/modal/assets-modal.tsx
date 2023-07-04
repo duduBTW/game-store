@@ -12,7 +12,6 @@ import CloseLineIcon from "remixicon-react/CloseLineIcon";
 import ArrowDropRightLineIcon from "remixicon-react/ArrowDropRightLineIcon";
 import ArrowDropLeftLineIcon from "remixicon-react/ArrowDropLeftLineIcon";
 import inRange from "lodash.inrange";
-import FocusTrap from "focus-trap-react";
 
 import { Asset } from "@/service/game";
 import Typography from "@/components/design-system/typography";
@@ -69,13 +68,11 @@ function Content() {
   }
 
   return (
-    <FocusTrap>
-      <ContentContainer>
-        <UpperPart />
-        <CurrentAsset />
-        <BottomPart />
-      </ContentContainer>
-    </FocusTrap>
+    <ContentContainer>
+      <UpperPart />
+      <CurrentAsset />
+      <BottomPart />
+    </ContentContainer>
   );
 }
 
@@ -158,11 +155,14 @@ function useAssetsModalValue() {
     setSelectedAsset(0);
   }, []);
 
-  const handleOpen = useCallback((newAssets: Asset[]) => {
-    setOpen(true);
-    setAssets(newAssets);
-    setSelectedAsset(0);
-  }, []);
+  const handleOpen = useCallback(
+    (newAssets: Asset[], defaultSelectedAsset = 0) => {
+      setOpen(true);
+      setAssets(newAssets);
+      setSelectedAsset(defaultSelectedAsset);
+    },
+    []
+  );
 
   const canMoveTo = useMemo(
     () => canMoveToFactory(selectedAssetIndex, assetCount),

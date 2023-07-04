@@ -5,13 +5,49 @@ import Button from "@/components/design-system/button/button";
 import Carousel from "@/components/design-system/carousel/carousel";
 import AssetDisplay from "@/components/design-system/assets/display";
 import getHtmlCss from "@/components/design-system/html";
+import Nav from "@/components/design-system/nav";
 
 export const Container = styled.div(() => {
+  return css`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  `;
+});
+
+export const Content = styled.div(({ theme }) => {
   return css`
     position: relative;
     flex-grow: 1;
     display: grid;
     grid-template-rows: auto auto auto 1fr;
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50rem;
+      z-index: -1;
+      background: linear-gradient(
+          0deg,
+          ${theme.colors.background.main} 0%,
+          rgba(${theme.colors.background.rgb}, 1) 47.74%,
+          rgba(${theme.colors.background.rgb}, 0.72) 100%
+        ),
+        ${theme.colors.brand.main};
+    }
+  `;
+});
+
+export const StyledNav = styled(Nav)(({ theme }) => {
+  return css`
+    &[data-expanded="false"] {
+      padding-right: ${theme.sizes.gaps["16"]};
+    }
   `;
 });
 
@@ -19,7 +55,7 @@ export const UpperPartContainer = styled(SizeContainer)(({ theme }) => {
   const { sizes, mq } = theme;
 
   return css`
-    padding: ${sizes.gaps["12"]} 0;
+    padding: 0 0 ${sizes.gaps["8"]};
     padding-left: ${sizes.gaps["5"]};
     padding-right: ${sizes.gaps["12"]};
 
@@ -103,15 +139,19 @@ interface ImageStyledProps {
   isActive?: boolean;
 }
 
-export const Styled = styled(AssetDisplay)<ImageStyledProps>(
+export const StyledAssetDisplayContainer = styled.button(() => {
+  return css`
+    cursor: pointer;
+  `;
+});
+
+export const StyledAssetDisplay = styled(AssetDisplay)<ImageStyledProps>(
   ({ theme, isActive }) => {
     return css`
       pointer-events: none;
       width: ${theme.sizes.container.small};
       max-width: calc(100vw - ${theme.sizes.gaps["12"]});
       aspect-ratio: 16 / 9;
-      object-fit: cover;
-      object-position: center 20%;
       border-radius: ${theme.borderRadius.medium};
       transition: opacity 0.25s ease-out;
       opacity: 1;

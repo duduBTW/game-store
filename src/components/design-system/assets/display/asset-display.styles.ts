@@ -17,7 +17,7 @@ export const StyledImageAsset = styled.img(({ theme }) => {
     aspect-ratio: 16 / 9;
     border-radius: ${theme.borderRadius.medium};
     object-fit: cover;
-    object-position: center;
+    object-position: center 20%;
     pointer-events: none;
   `;
 });

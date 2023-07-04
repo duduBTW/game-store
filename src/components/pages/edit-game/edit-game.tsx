@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import FocusTrap from "focus-trap-react";
 import CloseLineIcon from "remixicon-react/CloseLineIcon";
 import DeleteBin7LineIcon from "remixicon-react/DeleteBin7LineIcon";
@@ -40,15 +40,17 @@ import {
   Container,
   GameAssetsContainer,
   GameSingleInputFormContainer,
-  Logo,
   MainPartContainer,
   MainPartContainerWrapper,
   NavContainer,
   SidePartContainer,
   SidePartTrigger,
+  StyledNavUpperPart,
   StyledTabsContent,
 } from "./edit-game.styles";
 import InputEditor from "@/components/design-system/input/editor/input-editor";
+import { User } from "@/components/design-system/nav";
+import { Link } from "react-router-dom";
 
 const TABS = {
   TITLE: "title",
@@ -81,6 +83,8 @@ function EditGamePage() {
         </SidePartContainer>
 
         <MainPartContainerWrapper>
+          <StyledNavUpperPart />
+
           <MainPartContainer size="small">
             <Nav />
 
@@ -113,9 +117,11 @@ function Nav() {
 
   return (
     <NavContainer>
-      <Logo src="https://pbs.twimg.com/profile_images/1606519048145358848/W7iR8GBb_400x400.jpg" />
       <Breadcrumbs>
-        <Typography>Dashboard</Typography>
+        <User />
+        <Link to="/admin/dashboard">
+          <Typography>Dashboard</Typography>
+        </Link>
         <Typography>{game?.title}</Typography>
       </Breadcrumbs>
     </NavContainer>

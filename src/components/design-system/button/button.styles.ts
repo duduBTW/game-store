@@ -90,6 +90,28 @@ export const StyledTypography = styled(Typography)(() => {
   `;
 });
 
+export const AdditionalInfoContainer = styled.div(({ theme }) => {
+  return css`
+    width: 100%;
+    background-color: ${theme.colors.gray["900"]};
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+
+    ${StyledButton} {
+      flex-grow: 1;
+      border: 0.3rem solid ${theme.colors.gray["900"]};
+    }
+  `;
+});
+
+export const AdditionalInfoLabel = styled.div(({ theme }) => {
+  return css`
+    width: ${theme.sizes.gaps["48"]};
+    text-align: center;
+  `;
+});
+
 export const loadingButtonAnimation = keyframes`
   0% {
     background-position: 0% 50%;

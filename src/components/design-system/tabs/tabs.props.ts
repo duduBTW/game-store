@@ -9,18 +9,17 @@ export interface RootProps extends UseTabsValueProps {
   children: React.ReactNode;
 }
 
-export interface ListProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ListProps extends React.ComponentProps<"div"> {
   loop?: boolean;
   children: React.ReactNode;
 }
 
-export interface TriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface TriggerProps extends React.ComponentProps<"button"> {
   children: React.ReactNode;
   value: string;
 }
 
-export interface ContentProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ContentProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   value: string;
 }

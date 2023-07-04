@@ -20,10 +20,10 @@ export const AbsoluteContainer = styled(SizeContainer)(({ theme }) => {
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
-    gap: ${sizes.gaps["12"]};
+    gap: ${sizes.gaps["6"]};
 
     ${mq.fromMobile} {
-      padding-top: ${sizes.gaps["12"]};
+      padding-top: ${sizes.gaps["6"]};
     }
   `;
 });
@@ -36,7 +36,7 @@ export const SideBarIcon = styled.button(({ theme }) => {
     position: fixed;
     vertical-align: baseline;
     height: 3rem;
-    top: 4.8rem;
+    top: 2.4rem;
     right: ${sizes.gaps["5"]};
     cursor: pointer;
   `;

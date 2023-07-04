@@ -20,6 +20,7 @@ import {
   CreateGameFormProps,
   CreateGameSuccessProps,
 } from "./create-game.props";
+import { Link } from "react-router-dom";
 
 function CreateGamePage() {
   const [createdGame, setCreatedGame] = useState<Game | null>(null);
@@ -92,7 +93,11 @@ function CreateGameForm({ onSuccess }: CreateGameFormProps) {
           <SubmitButton isLoading={isLoading} disabled={hasErrors}>
             Create
           </SubmitButton>
-          <Button variant="outlined">Return to dashboard</Button>
+          <Link to="/admin/dashboard">
+            <Button as="div" variant="outlined">
+              Return to dashboard
+            </Button>
+          </Link>
         </BottomPart>
       </Container>
     </Wrapper>

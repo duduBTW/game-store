@@ -2,9 +2,15 @@ import styled, { css } from "styled-components";
 
 export const Container = styled.div(({ theme }) => {
   return css`
-    position: relative;
     min-height: 100vh;
     background-color: ${theme.colors.background.main};
+  `;
+});
+
+export const Content = styled.div(({ theme }) => {
+  return css`
+    position: relative;
+    height: 100%;
     isolation: isolate;
 
     &::before {
@@ -13,7 +19,7 @@ export const Container = styled.div(({ theme }) => {
       top: 0;
       left: 0;
       width: 100%;
-      height: 30rem;
+      height: 50rem;
       z-index: -1;
       background: linear-gradient(
           0deg,

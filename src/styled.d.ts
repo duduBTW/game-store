@@ -46,6 +46,7 @@ declare module "styled-components" {
         rgb: string;
       };
       brand: {
+        dark: string;
         main: string;
         light: string;
         gradient: { main: string; light: string };

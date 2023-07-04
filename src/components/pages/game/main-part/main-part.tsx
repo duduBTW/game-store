@@ -9,16 +9,21 @@ import Carousel from "@/components/design-system/carousel";
 
 import {
   Container,
+  Content,
   BuyContainer,
   BottomPartContainer,
   GameDescription,
-  Styled,
+  StyledAssetDisplay,
   UpperPartContainer,
   Price,
   BuyButton,
   CarouselUpperPartContainer,
   StyledCarouselScroller,
+  StyledNav,
+  StyledAssetDisplayContainer,
 } from "./main-part.styles";
+import { useGameSidePart } from "../side-part/side-part";
+import { useAssetsModal } from "@/components/design-system/assets/modal";
 
 function useId() {
   const { id } = useParams();
@@ -33,8 +38,12 @@ function useId() {
 function useGame() {
   const id = useId();
 
-  const { data } = useQuery(getGameMainPart.getKey(id), () =>
-    getGameMainPart(id)
+  const { data } = useQuery(
+    getGameMainPart.getKey(id),
+    () => getGameMainPart(id),
+    {
+      enabled: true,
+    }
   );
 
   if (!data) {
@@ -49,6 +58,9 @@ function useGame() {
  * -----------------------------------------------------------------------------------------------*/
 export default function GameMainPart() {
   const id = useId();
+  const {
+    sidebarActive: [active],
+  } = useGameSidePart();
 
   const { isLoading, data } = useQuery(getGameMainPart.getKey(id), () =>
     getGameMainPart(id)
@@ -60,9 +72,13 @@ export default function GameMainPart() {
 
   return (
     <Container>
-      <UpperPart />
-      <CarouselPart />
-      <BottomPart />
+      <StyledNav data-expanded={active} />
+
+      <Content>
+        <UpperPart />
+        <CarouselPart />
+        <BottomPart />
+      </Content>
     </Container>
   );
 }
@@ -92,6 +108,7 @@ function UpperPart() {
  * Carousel
  * -----------------------------------------------------------------------------------------------*/
 function CarouselPart() {
+  const { handleOpen } = useAssetsModal();
   const { Assets: assets } = useGame();
 
   return (
@@ -104,7 +121,14 @@ function CarouselPart() {
       <StyledCarouselScroller tabIndex={0}>
         {assets.map((asset, index) => (
           <Carousel.SnapItem index={index} key={asset.id}>
-            {({ isActive }) => <Styled isActive={isActive} asset={asset} />}
+            {({ isActive }) => (
+              <StyledAssetDisplayContainer
+                disabled={!isActive}
+                onClick={() => handleOpen(assets, index)}
+              >
+                <StyledAssetDisplay isActive={isActive} asset={asset} />
+              </StyledAssetDisplayContainer>
+            )}
           </Carousel.SnapItem>
         ))}
       </StyledCarouselScroller>

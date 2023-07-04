@@ -2,8 +2,10 @@ import { useTheme } from "styled-components";
 
 import { Props as TypographyProps } from "@/components/design-system/typography";
 
-import { Props, ButtonSize } from "./button.props";
+import { Props, ButtonSize, AdditionalInfoProps } from "./button.props";
 import {
+  AdditionalInfoContainer,
+  AdditionalInfoLabel,
   StartIconContainer,
   StyledButton,
   StyledLoaderLineIcon,
@@ -77,3 +79,15 @@ export default function Button({
     </StyledButton>
   );
 }
+
+function AdditionalInfo({ children, label, ...rest }: AdditionalInfoProps) {
+  return (
+    <AdditionalInfoContainer>
+      <AdditionalInfoLabel>{label}</AdditionalInfoLabel>
+
+      {children}
+    </AdditionalInfoContainer>
+  );
+}
+
+Button.AdditionalInfo = AdditionalInfo;
